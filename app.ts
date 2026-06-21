@@ -502,7 +502,9 @@ app.post("/api/gemini/receipt", async (req, res) => {
       Be realistic and helpful. Convert price values to standard text.`,
     };
 
+    console.log(`[RECEIPT_API] Received receipt scan request. MimeType: ${actualMimeType}, Base64 Length: ${cleanedBase64.length} chars`);
     try {
+      console.log("[RECEIPT_API] Querying Gemini Vision API (gemini-3.5-flash)...");
       const response = await withTimeout(getAiClient().models.generateContent({
         model: "gemini-3.5-flash",
         contents: { parts: [imagePart, textPart] },
@@ -538,19 +540,25 @@ app.post("/api/gemini/receipt", async (req, res) => {
       }), 8500);
 
       const text = response.text;
+      console.log(`[RECEIPT_API] Gemini response received. Text length: ${text?.length || 0}`);
       if (!text) {
         throw new Error("Empty vision result from Gemini API");
       }
 
+      console.log("[RECEIPT_API] Raw Gemini JSON Output:", text);
+
       const parsed = JSON.parse(text);
       if (parsed.isValid === false) {
+        console.log("[RECEIPT_API] Document classified as invalid/unsupported.");
         return sendError(res, 400, "Unsupported document type. Please upload a grocery receipt, utility bill, travel ticket, or purchase invoice.");
       }
 
+      console.log(`[RECEIPT_API] Success! Extracted ${parsed.items?.length || 0} items from merchant ${parsed.merchant || "unknown"}`);
       return res.json(parsed);
 
     } catch (apiErr: any) {
-      console.log("Gemini Vision Receipt API offline. Executing standard receipt parse fallback.");
+      console.error("[RECEIPT_API] Gemini Vision API failed! Error detail:", apiErr?.message || apiErr);
+      console.log("[RECEIPT_API] Executing standard local offline receipt fallback...");
       
       // Safety receipt representation fallback
       const mockReceiptResponse = {

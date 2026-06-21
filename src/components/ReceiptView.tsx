@@ -49,44 +49,128 @@ export default function ReceiptView() {
     }
   };
 
-  const analyzeImageFile = (file: File) => {
+  // Helper for image compression to avoid Vercel 4.5MB payload limit
+  const compressImage = (file: File): Promise<{ base64: string; mimeType: string }> => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith("image/")) {
+        return reject(new Error("File is not an image"));
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            return reject(new Error("Failed to get 2d context"));
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Compress to JPEG with 75% quality
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.75);
+          resolve({
+            base64: compressedBase64,
+            mimeType: "image/jpeg"
+          });
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
+  const getCompressedImageOrFallback = async (file: File): Promise<{ base64: string; mimeType: string }> => {
+    try {
+      console.log(`Starting client-side image compression for ${file.name} (${(file.size / 1024).toFixed(1)} KB)...`);
+      const result = await compressImage(file);
+      const approxSize = Math.round((result.base64.length * 3) / 4 / 1024);
+      console.log(`Compression successful: Reduced to image/jpeg, approx ${approxSize} KB`);
+      return result;
+    } catch (err) {
+      console.warn("Client-side image compression failed, falling back to original file:", err);
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          resolve({
+            base64: reader.result as string,
+            mimeType: file.type
+          });
+        };
+        reader.onerror = (err) => reject(err);
+      });
+    }
+  };
+
+  const analyzeImageFile = async (file: File) => {
     setLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
     setScannedResult(null);
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async () => {
-      const base64 = reader.result as string;
+    try {
+      const { base64, mimeType } = await getCompressedImageOrFallback(file);
+      console.log(`Sending payload size: ${Math.round(base64.length / 1024)} KB to /api/gemini/receipt`);
+      
+      const response = await fetch("/api/gemini/receipt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          imageBase64: base64,
+          mimeType: mimeType
+        })
+      });
+
+      const text = await response.text();
+      console.log(`Response received with status: ${response.status}`);
+      
+      let data: any = {};
       try {
-        const response = await fetch("/api/gemini/receipt", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            imageBase64: base64,
-            mimeType: file.type
-          })
-        });
-
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data.error || "Receipt analysis failed.");
-        }
-
-        if (data && data.items && data.items.length > 0) {
-          setScannedResult(data);
-          // Auto-select all parsed lines
-          setSelectedIndices(data.items.map((_: any, idx: number) => idx));
-        } else {
-          setErrorMessage("We couldn't detect any structured purchase items or carbon-related context on this document. Please try a cleaner receipt.");
-        }
-      } catch (err: any) {
-        setErrorMessage(err.message || "Receipt analysis is currently unavailable. Please check your network connection and try again.");
-      } finally {
-        setLoading(false);
+        data = JSON.parse(text);
+      } catch (jsonErr) {
+        console.error("Non-JSON response from server:", text);
+        throw new Error(`Server returned invalid response format. Error: ${text.substring(0, 150)}`);
       }
-    };
+
+      if (!response.ok) {
+        throw new Error(data.error || "Receipt analysis failed.");
+      }
+
+      if (data && data.items && data.items.length > 0) {
+        setScannedResult(data);
+        // Auto-select all parsed lines
+        setSelectedIndices(data.items.map((_: any, idx: number) => idx));
+      } else {
+        setErrorMessage("We couldn't detect any structured purchase items or carbon-related context on this document. Please try a cleaner receipt.");
+      }
+    } catch (err: any) {
+      console.error("Receipt scan client error:", err);
+      setErrorMessage(err.message || "Receipt analysis is currently unavailable. Please check your network connection and try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const toggleSelectIndex = (idx: number) => {
