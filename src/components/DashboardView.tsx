@@ -316,6 +316,40 @@ export default function DashboardView() {
     return Math.round(Math.max(30, Math.min(98, baseScore + deviation)));
   };
 
+  const parseMarkdown = (markdown: string) => {
+    return markdown.split("\n").map((line, idx) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith("###")) {
+        return <h4 key={idx} className="text-[11px] font-black text-emerald-950 mt-2.5 mb-1 block">{trimmed.replace("###", "")}</h4>;
+      }
+      if (trimmed.startsWith("####")) {
+        return <h5 key={idx} className="text-[10px] font-bold text-emerald-900 uppercase tracking-wide mt-2 mb-1">{trimmed.replace("####", "")}</h5>;
+      }
+
+      const isBullet = trimmed.startsWith("-") || trimmed.startsWith("*");
+      let textLine = trimmed;
+      if (isBullet) {
+        textLine = trimmed.replace(/^[-*]\s*/, "");
+      }
+
+      const boldParts = textLine.split(/\*\*([^*]+)\*\*/g);
+      const parsedLine = boldParts.map((p, pIdx) => {
+        if (pIdx % 2 === 1) return <strong key={pIdx} className="font-extrabold text-emerald-950">{p}</strong>;
+        return p;
+      });
+
+      if (isBullet) {
+        return (
+          <li key={idx} className="list-disc ml-4 text-[11px] text-emerald-900 leading-relaxed mt-0.5">
+            {parsedLine}
+          </li>
+        );
+      }
+
+      return <p key={idx} className="text-[11px] text-emerald-900 leading-relaxed mt-1">{parsedLine}</p>;
+    });
+  };
+
   const generateDynamicInsights = async () => {
     if (activities.length === 0) {
       setAiInsight("You don't have any activities logged yet. Narrative or select your first habit entry above so we can parse your carbon outputs and generate customized AI coach metrics.");
@@ -777,9 +811,10 @@ export default function DashboardView() {
               </div>
             </div>
 
-            <p className="text-xs text-emerald-900 border-t border-emerald-100/30 pt-3 leading-relaxed font-medium">
-              💡 <strong>Recommendations:</strong> {aiInsight}
-            </p>
+            <div className="text-xs text-emerald-900 border-t border-emerald-100/30 pt-3 leading-relaxed font-medium">
+              💡 <strong className="inline-block mb-1">Recommendations:</strong>
+              <div className="space-y-0.5 mt-0.5">{parseMarkdown(aiInsight)}</div>
+            </div>
           </div>
 
           {/* CONCISE EMISSIONS TRENDS GRAPH */}
