@@ -724,18 +724,6 @@ You are performing above average in sustainability tracking. Continued improveme
         </div>
       )}
 
-      {compiledReport && (
-        <PdfReportTemplate
-          userProfile={profile}
-          reportType={reportType}
-          totalEmissions={totalEmissions}
-          baseline={dailyBaselineKg * (reportType === "weekly" ? 7 : 30)}
-          highestCategory={highestCategory}
-          categoryData={breakdownData}
-          trendData={trendData}
-          report={compiledReport}
-        />
-      )}
     </div>
   );
 }

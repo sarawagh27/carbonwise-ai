@@ -365,6 +365,7 @@ export default function ReceiptView() {
                 onClick={clearScannedResult}
                 className="p-2 text-stone-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all cursor-pointer"
                 title="Discard scan"
+                aria-label="Discard scan results"
               >
                 <Trash2 size={16} />
               </button>
@@ -500,6 +501,7 @@ export default function ReceiptView() {
                 onClick={handleSaveActivities}
                 disabled={selectedIndices.length === 0}
                 className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs px-6 py-3 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-3xs"
+                aria-label="Log checked items to carbon ledger"
               >
                 <BookmarkCheck size={16} />
                 <span>Log Checked Items ({selectedIndices.length})</span>

@@ -25,7 +25,7 @@ async function initializeServer() {
   });
 
   server.on("error", (error) => {
-    if (error.code === "EADDRINUSE") {
+    if ((error as any).code === "EADDRINUSE") {
       console.error(`Port ${PORT} is already in use.`);
     }
     throw error;
