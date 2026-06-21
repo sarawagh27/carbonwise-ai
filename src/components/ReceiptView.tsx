@@ -151,7 +151,7 @@ export default function ReceiptView() {
         data = JSON.parse(text);
       } catch (jsonErr) {
         console.error("Non-JSON response from server:", text);
-        throw new Error(`Server returned invalid response format. Error: ${text.substring(0, 150)}`);
+        throw new Error(`Server returned invalid response format. Error: ${text.substring(0, 150)}`, { cause: jsonErr });
       }
 
       if (!response.ok) {
