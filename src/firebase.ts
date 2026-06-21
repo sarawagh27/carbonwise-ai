@@ -11,19 +11,23 @@ const requiredFirebaseEnv = [
   "VITE_FIREBASE_APP_ID"
 ] as const;
 
-const missingFirebaseEnv = requiredFirebaseEnv.filter((key) => !import.meta.env[key]);
+const isTestEnv = typeof process !== "undefined" && (process.env.NODE_ENV === "test" || process.env.VITEST === "true");
+
+const missingFirebaseEnv = isTestEnv 
+  ? [] 
+  : requiredFirebaseEnv.filter((key) => !import.meta.env[key]);
 
 if (missingFirebaseEnv.length > 0) {
   throw new Error(`Missing Firebase environment variables: ${missingFirebaseEnv.join(", ")}`);
 }
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "mock-api-key",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "mock-auth-domain.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "mock-project-id",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "mock-storage-bucket.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "000000000000",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:000000000000:web:mockappid"
 };
 
 const app = initializeApp(firebaseConfig);
