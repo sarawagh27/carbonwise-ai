@@ -1,0 +1,158 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with sustainability onboarding settings",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Unique Firebase Authentication UID" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "city": { "type": "string" },
+        "country": { "type": "string" },
+        "joinedAt": { "type": "string", "format": "date-time" },
+        "onboarded": { "type": "boolean" },
+        "transportHabits": { "type": "string" },
+        "dietType": { "type": "string" },
+        "energyUsage": { "type": "string" },
+        "shoppingHabits": { "type": "string" },
+        "baselineCarbon": { "type": "number", "description": "Estimated annual metric tons baseline CO2" },
+        "sustainabilityScore": { "type": "number", "description": "Score from 0 to 100" },
+        "xp": { "type": "number" },
+        "level": { "type": "string", "enum": ["Seed", "Eco Learner", "Green Guardian", "Climate Champion"] },
+        "streak": { "type": "number" },
+        "lastActiveAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "name", "email"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "description": "Logged user activity with calculated emissions",
+      "type": "object",
+      "properties": {
+        "activityId": { "type": "string" },
+        "userId": { "type": "string" },
+        "inputText": { "type": "string", "description": "The raw text entered by user" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "category": { "type": "string", "enum": ["Transportation", "Food", "Energy", "Shopping", "Waste"] },
+        "description": { "type": "string" },
+        "emissionKg": { "type": "number", "description": "CO2 emissions in kg" },
+        "details": { "type": "object", "description": "Extracted details like km driven, item bought" }
+      },
+      "required": ["activityId", "userId", "timestamp", "category", "emissionKg"]
+    },
+    "Footprint": {
+      "title": "Footprint",
+      "description": "User's calculated footprint breakdowns",
+      "type": "object",
+      "properties": {
+        "footprintId": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string" },
+        "transportation": { "type": "number" },
+        "food": { "type": "number" },
+        "energy": { "type": "number" },
+        "shopping": { "type": "number" },
+        "waste": { "type": "number" },
+        "total": { "type": "number" }
+      },
+      "required": ["footprintId", "userId", "date", "total"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "AI-generated sustainability trends and forecasting reports",
+      "type": "object",
+      "properties": {
+        "reportId": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["weekly", "monthly"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "periodStart": { "type": "string" },
+        "periodEnd": { "type": "string" },
+        "totalEmissions": { "type": "number" },
+        "carbonSaved": { "type": "number" },
+        "topSource": { "type": "string" },
+        "summary": { "type": "string", "description": "AI-written descriptive summary" },
+        "recommendations": { "type": "array" }
+      },
+      "required": ["reportId", "userId", "type", "createdAt"]
+    },
+    "Challenge": {
+      "title": "Challenge",
+      "description": "Gamified eco-challenges active/completed by the user",
+      "type": "object",
+      "properties": {
+        "challengeId": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "points": { "type": "number" },
+        "category": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "activatedAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["challengeId", "userId", "title", "completed"]
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Badges and achievements unlocked by the user",
+      "type": "object",
+      "properties": {
+        "achievementId": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "unlockedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["achievementId", "userId", "title"]
+    },
+    "Recommendation": {
+      "title": "Recommendation",
+      "description": "AI personalized sustainability recommendation",
+      "type": "object",
+      "properties": {
+        "recId": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "potentialSavingsKg": { "type": "number" },
+        "actionTaken": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recId", "userId", "title"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document"
+    },
+    "/users/{userId}/activities/{activityId}": {
+      "schema": "Activity",
+      "description": "User logged activities"
+    },
+    "/users/{userId}/footprints/{footprintId}": {
+      "schema": "Footprint",
+      "description": "Historical footprint calculations"
+    },
+    "/users/{userId}/reports/{reportId}": {
+      "schema": "Report",
+      "description": "Weekly/monthly sustainability insights"
+    },
+    "/users/{userId}/challenges/{challengeId}": {
+      "schema": "Challenge",
+      "description": "Challenges status"
+    },
+    "/users/{userId}/achievements/{achievementId}": {
+      "schema": "Achievement",
+      "description": "Unlocked badges"
+    },
+    "/users/{userId}/recommendations/{recId}": {
+      "schema": "Recommendation",
+      "description": "AI personalized tips"
+    }
+  }
+}

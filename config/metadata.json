@@ -1,0 +1,6 @@
+{
+  "name": "CarbonWise AI",
+  "description": "Interactive AI Sustainability Coach and Carbon Footprint Tracker with natural language activity parsing and Receipt Scan vision diagnostics.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
