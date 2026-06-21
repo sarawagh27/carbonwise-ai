@@ -161,7 +161,7 @@ export default function OnboardingView() {
     return (
       <div className="min-h-screen bg-neutral-50/50 flex flex-col items-center justify-center p-6 text-center">
         <div className="w-16 h-16 rounded-full bg-emerald-50 relative flex items-center justify-center mx-auto mb-6 border border-emerald-100">
-          <Leaf className="text-emerald-500 animate-spin" size={32} />
+          <Leaf aria-hidden="true" className="text-emerald-500 animate-spin" size={32} />
         </div>
         <h3 className="text-xl font-bold text-gray-900 tracking-tight">Compiling Carbon Footprint...</h3>
         <p className="text-sm text-gray-500 max-w-sm mt-2">
@@ -217,7 +217,7 @@ export default function OnboardingView() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100/50">
                   <div className="space-y-0.5">
                     <span className="text-xs font-bold text-emerald-950 flex items-center gap-1.5">
-                      <Globe size={14} className="text-emerald-600" />
+                      <Globe aria-hidden="true" size={14} className="text-emerald-600" />
                       Auto-Detect Location
                     </span>
                     <span className="text-[11px] text-emerald-800 leading-none">Detect code-based carbon factors matching your area.</span>
@@ -257,7 +257,7 @@ export default function OnboardingView() {
                       City
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-3.5 top-3.5 text-gray-400" size={16} />
+                      <MapPin aria-hidden="true" className="absolute left-3.5 top-3.5 text-gray-400" size={16} />
                       <input
                         id="city-input"
                         type="text"
@@ -295,7 +295,7 @@ export default function OnboardingView() {
                   className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span>Continue</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight aria-hidden="true" size={16} />
                 </button>
               </div>
             </div>
@@ -331,7 +331,7 @@ export default function OnboardingView() {
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <h4 className="font-semibold text-gray-900 text-sm">{opt.label}</h4>
-                          {isSelected && <CheckCircle2 className="text-emerald-600" size={16} />}
+                          {isSelected && <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={16} />}
                         </div>
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed">{opt.desc}</p>
                       </div>
@@ -346,7 +346,7 @@ export default function OnboardingView() {
                   onClick={prevStep}
                   className="flex items-center gap-2 text-gray-600 hover:text-emerald-700 font-semibold text-sm px-4 py-3"
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft aria-hidden="true" size={16} />
                   <span>Back</span>
                 </button>
                 <button
@@ -355,7 +355,7 @@ export default function OnboardingView() {
                   className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors cursor-pointer"
                 >
                   <span>Continue</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight aria-hidden="true" size={16} />
                 </button>
               </div>
             </div>
@@ -391,7 +391,7 @@ export default function OnboardingView() {
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <h4 className="font-semibold text-gray-900 text-sm">{opt.label}</h4>
-                          {isSelected && <CheckCircle2 className="text-emerald-600" size={16} />}
+                          {isSelected && <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={16} />}
                         </div>
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed">{opt.desc}</p>
                       </div>
@@ -406,7 +406,7 @@ export default function OnboardingView() {
                   onClick={prevStep}
                   className="flex items-center gap-2 text-gray-600 hover:text-emerald-700 font-semibold text-sm px-4 py-3"
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft aria-hidden="true" size={16} />
                   <span>Back</span>
                 </button>
                 <button
@@ -415,7 +415,7 @@ export default function OnboardingView() {
                   className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors cursor-pointer"
                 >
                   <span>Continue</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight aria-hidden="true" size={16} />
                 </button>
               </div>
             </div>
@@ -451,7 +451,7 @@ export default function OnboardingView() {
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <h4 className="font-semibold text-gray-900 text-sm">{opt.label}</h4>
-                          {isSelected && <CheckCircle2 className="text-emerald-600" size={16} />}
+                          {isSelected && <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={16} />}
                         </div>
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed">{opt.desc}</p>
                       </div>
@@ -466,7 +466,7 @@ export default function OnboardingView() {
                   onClick={prevStep}
                   className="flex items-center gap-2 text-gray-600 hover:text-emerald-700 font-semibold text-sm px-4 py-3"
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft aria-hidden="true" size={16} />
                   <span>Back</span>
                 </button>
                 <button
@@ -475,7 +475,7 @@ export default function OnboardingView() {
                   className="flex items-center gap-2 bg-emerald-600 text-white px-5 py-3 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors cursor-pointer"
                 >
                   <span>Continue</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight aria-hidden="true" size={16} />
                 </button>
               </div>
             </div>
@@ -511,7 +511,7 @@ export default function OnboardingView() {
                       <div className="flex-1">
                         <div className="flex items-center justify-between">
                           <h4 className="font-semibold text-gray-900 text-sm">{opt.label}</h4>
-                          {isSelected && <CheckCircle2 className="text-emerald-600" size={16} />}
+                          {isSelected && <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={16} />}
                         </div>
                         <p className="text-xs text-gray-500 mt-1 leading-relaxed">{opt.desc}</p>
                       </div>
@@ -526,7 +526,7 @@ export default function OnboardingView() {
                   onClick={prevStep}
                   className="flex items-center gap-2 text-gray-600 hover:text-emerald-700 font-semibold text-sm px-4 py-3"
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft aria-hidden="true" size={16} />
                   <span>Back</span>
                 </button>
                 <button
@@ -535,7 +535,7 @@ export default function OnboardingView() {
                   className="flex items-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-600/15 hover:bg-emerald-700 hover:shadow-emerald-700/20 active:translate-y-px transition-all cursor-pointer"
                 >
                   <span>Continue</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight aria-hidden="true" size={16} />
                 </button>
               </div>
             </div>
@@ -564,7 +564,7 @@ export default function OnboardingView() {
                 >
                   <div className="flex gap-4 items-start">
                     <div className={`p-3 rounded-xl shrink-0 ${permissions.location === "granted" ? "bg-emerald-550 text-white" : "bg-emerald-50/60 text-emerald-600 border border-emerald-100/30"}`}>
-                      <MapPin size={20} />
+                      <MapPin aria-hidden="true" size={20} />
                     </div>
                     <div className="space-y-0.5">
                       <h4 className="font-bold text-neutral-850 text-sm flex items-center gap-1">
@@ -602,7 +602,7 @@ export default function OnboardingView() {
                 >
                   <div className="flex gap-4 items-start">
                     <div className={`p-3 rounded-xl shrink-0 ${permissions.voice === "granted" ? "bg-emerald-555 text-white" : "bg-emerald-50/60 text-emerald-600 border border-emerald-100/30"}`}>
-                      <Mic size={20} />
+                      <Mic aria-hidden="true" size={20} />
                     </div>
                     <div className="space-y-0.5">
                       <h4 className="font-bold text-neutral-850 text-sm flex items-center gap-1">
@@ -640,7 +640,7 @@ export default function OnboardingView() {
                 >
                   <div className="flex gap-4 items-start">
                     <div className={`p-3 rounded-xl shrink-0 ${permissions.camera === "granted" ? "bg-emerald-555 text-white" : "bg-emerald-50/60 text-emerald-600 border border-emerald-100/30"}`}>
-                      <Camera size={20} />
+                      <Camera aria-hidden="true" size={20} />
                     </div>
                     <div className="space-y-0.5">
                       <h4 className="font-bold text-neutral-850 text-sm flex items-center gap-1">
@@ -678,7 +678,7 @@ export default function OnboardingView() {
                 >
                   <div className="flex gap-4 items-start">
                     <div className={`p-3 rounded-xl shrink-0 ${permissions.notifications === "granted" ? "bg-emerald-555 text-white" : "bg-emerald-50/60 text-emerald-600 border border-emerald-100/30"}`}>
-                      <Bell size={20} />
+                      <Bell aria-hidden="true" size={20} />
                     </div>
                     <div className="space-y-0.5">
                       <h4 className="font-bold text-neutral-850 text-sm flex items-center gap-1">
@@ -710,7 +710,7 @@ export default function OnboardingView() {
 
               {/* Privacy protection guarantee reassurance card overlay design */}
               <div className="flex gap-3.5 bg-emerald-50/10 border border-emerald-200/25 p-4 rounded-2xl items-start select-none">
-                <ShieldCheck className="text-emerald-600 shrink-0 mt-0.5" size={17} />
+                <ShieldCheck aria-hidden="true" className="text-emerald-600 shrink-0 mt-0.5" size={17} />
                 <p className="text-[11px] font-semibold text-neutral-500 leading-relaxed text-left">
                   CarbonWise only requests permissions required for features you choose to use. Your data is never sold and can be disabled anytime.
                 </p>
@@ -723,7 +723,7 @@ export default function OnboardingView() {
                   onClick={prevStep}
                   className="flex items-center gap-2 text-gray-500 hover:text-emerald-700 font-bold text-xs px-4.5 py-2.5 rounded-xl transition-colors cursor-pointer"
                 >
-                  <ArrowLeft size={15} />
+                  <ArrowLeft aria-hidden="true" size={15} />
                   <span>Back</span>
                 </button>
                 <div className="flex items-center gap-2.5">
@@ -754,7 +754,7 @@ export default function OnboardingView() {
                     className="flex items-center gap-2 bg-emerald-600 text-white px-6 py-3.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/20 hover:bg-emerald-750 active:translate-y-px transition-all cursor-pointer"
                   >
                     <span>Continue</span>
-                    <ArrowRight size={16} />
+                    <ArrowRight aria-hidden="true" size={16} />
                   </button>
                 </div>
               </div>

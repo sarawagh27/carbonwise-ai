@@ -150,7 +150,7 @@ What would you like to explore today?`
           <p className="text-sm text-gray-500 font-medium">Get customized carbon reduction advice and data-backed sustainability strategies.</p>
         </div>
         <div className="hidden sm:flex items-center gap-2 text-xs bg-emerald-50 text-emerald-800 px-3 py-1 rounded-full border border-emerald-100/40">
-          <Sparkles size={14} className="text-emerald-600" />
+          <Sparkles aria-hidden="true" size={14} className="text-emerald-600" />
           <span>Eco Rank: {profile?.level}</span>
         </div>
       </div>
@@ -168,7 +168,7 @@ What would you like to explore today?`
             {/* Elegant Welcome Card */}
             <div className="bg-emerald-50/15 border border-emerald-100/20 p-4 rounded-xl flex gap-3 items-start text-left">
               <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 border border-emerald-500/20 shadow-sm">
-                <Leaf size={14} />
+                <Leaf aria-hidden="true" size={14} />
               </div>
               <div className="space-y-0.5">
                 <h4 className="font-bold text-stone-900 text-xs">Welcome to CarbonWise Coach 🌿</h4>
@@ -221,7 +221,7 @@ What would you like to explore today?`
                       w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold border
                       ${isAI ? "bg-emerald-500 text-white border-emerald-400" : "bg-neutral-100 text-gray-600 border-gray-200"}
                     `}>
-                      {isAI ? <Leaf size={14} /> : profile?.name[0]?.toUpperCase() || "U"}
+                      {isAI ? <Leaf aria-hidden="true" size={14} /> : profile?.name[0]?.toUpperCase() || "U"}
                     </div>
 
                     {/* Bubble Container */}
@@ -247,7 +247,7 @@ What would you like to explore today?`
             {loading && (
               <div className="flex justify-start items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white border border-emerald-400 font-bold justify-self-center">
-                  <Leaf size={14} className="animate-spin" />
+                  <Leaf aria-hidden="true" size={14} className="animate-spin" />
                 </div>
                 <div className="p-3 bg-neutral-50 rounded-2xl border border-emerald-50 text-xs text-gray-400 italic">
                   CarbonWise Coach is analyzing...
@@ -269,6 +269,7 @@ What would you like to explore today?`
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSendMessage(input);
             }}
+            aria-label="Ask Eco Coach"
             placeholder="Ask anything about carbon footprints, energy conservation, sustainable diets..."
             className="flex-1 px-4 py-3.5 border border-emerald-100/50 outline-none focus:border-emerald-500 rounded-xl text-xs font-semibold focus:ring-1 focus:ring-emerald-500 transition-all bg-stone-50/30"
           />
@@ -276,9 +277,10 @@ What would you like to explore today?`
             type="button"
             disabled={loading || !input.trim()}
             onClick={() => handleSendMessage(input)}
+            aria-label="Send message"
             className="bg-emerald-600 text-white px-4.5 rounded-xl hover:bg-emerald-700 transition-all duration-150 disabled:opacity-50 flex items-center justify-center cursor-pointer shadow-3xs"
           >
-            <Send size={15} />
+            <Send aria-hidden="true" size={15} />
           </button>
         </div>
       </div>

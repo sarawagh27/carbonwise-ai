@@ -598,7 +598,7 @@ export default function DashboardView() {
             <span className="text-neutral-800 font-bold">{profile.sustainabilityScore} Sustainability Score</span>
             <span>•</span>
             <span className="flex items-center gap-1 text-neutral-800 font-bold">
-              <Flame size={13} className="text-amber-500 fill-amber-500" />
+              <Flame aria-hidden="true" size={13} className="text-amber-500 fill-amber-500" />
               <span>{profile.streak} Day Streak</span>
             </span>
           </div>
@@ -609,7 +609,7 @@ export default function DashboardView() {
             onClick={triggerWeeklyReportGeneration}
             className="px-4 py-2 bg-emerald-600 hover:bg-emerald-750 text-white font-semibold text-xs rounded-lg transition-all flex items-center gap-2 cursor-pointer shadow-sm"
           >
-            <Sparkles size={13} className="text-yellow-300 fill-yellow-300" />
+            <Sparkles aria-hidden="true" size={13} className="text-yellow-300 fill-yellow-300" />
             <span>Generate Sustainability Report</span>
           </button>
         </div>
@@ -622,7 +622,7 @@ export default function DashboardView() {
           {permissions.location !== "granted" && (
             <div className="flex items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-3xs text-xs animate-fade-in text-left">
               <div className="flex gap-2.5 items-start text-neutral-600">
-                <Compass className="text-emerald-700 shrink-0 mt-0.5 animate-spin" style={{ animationDuration: '30s' }} size={15} />
+                <Compass aria-hidden="true" className="text-emerald-700 shrink-0 mt-0.5 animate-spin" style={{ animationDuration: '30s' }} size={15} />
                 <div className="space-y-0.5">
                   <p className="font-bold text-neutral-850">📍 Location Service Unavailable</p>
                   <p className="text-[10px] text-neutral-450 leading-relaxed">
@@ -645,7 +645,7 @@ export default function DashboardView() {
           {permissions.notifications !== "granted" && (
             <div className="flex items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-emerald-100 shadow-3xs text-xs animate-fade-in text-left">
               <div className="flex gap-2.5 items-start text-neutral-600">
-                <Trophy className="text-emerald-750 shrink-0 mt-0.5" size={15} />
+                <Trophy aria-hidden="true" className="text-emerald-750 shrink-0 mt-0.5" size={15} />
                 <div className="space-y-0.5">
                   <p className="font-bold text-neutral-850">🔔 Notifications turned off</p>
                   <p className="text-[10px] text-neutral-450 leading-relaxed">
@@ -682,7 +682,7 @@ export default function DashboardView() {
             </span>
           </div>
           <div className="p-2.5 bg-neutral-50 text-neutral-500 rounded-lg">
-            <Car size={15} />
+            <Car aria-hidden="true" size={15} />
           </div>
         </div>
 
@@ -697,7 +697,7 @@ export default function DashboardView() {
             </span>
           </div>
           <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg">
-            <Activity size={15} />
+            <Activity aria-hidden="true" size={15} />
           </div>
         </div>
 
@@ -712,7 +712,7 @@ export default function DashboardView() {
             </div>
           </div>
           <div className="p-2.5 bg-yellow-50/70 text-yellow-600 rounded-lg">
-            <Zap size={15} />
+            <Zap aria-hidden="true" size={15} />
           </div>
         </div>
 
@@ -727,7 +727,7 @@ export default function DashboardView() {
             </span>
           </div>
           <div className="p-2.5 bg-rose-50 text-rose-500 rounded-lg">
-            <Flame size={15} className="fill-rose-100" />
+            <Flame aria-hidden="true" size={15} className="fill-rose-100" />
           </div>
         </div>
       </div>
@@ -742,7 +742,7 @@ export default function DashboardView() {
           <div className="bg-emerald-50/50 border border-emerald-100/60 p-5 rounded-xl transition-all hover:border-emerald-200">
             <div className="flex items-center justify-between border-b border-emerald-100/40 pb-2.5 mb-3.5">
               <div className="flex items-center gap-2">
-                <Sparkles className="text-emerald-700 animate-pulse" size={14} />
+                <Sparkles aria-hidden="true" className="text-emerald-700 animate-pulse" size={14} />
                 <h3 className="font-semibold text-xs text-emerald-950 tracking-wide">
                   Weekly Sustainability Summary
                 </h3>
@@ -753,7 +753,7 @@ export default function DashboardView() {
                 disabled={generatingInsight}
                 className="text-[10px] font-bold text-emerald-800 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <RefreshCw size={9} className={generatingInsight ? "animate-spin" : ""} />
+                <RefreshCw aria-hidden="true" size={9} className={generatingInsight ? "animate-spin" : ""} />
                 <span>Refresh</span>
               </button>
             </div>
@@ -813,7 +813,7 @@ export default function DashboardView() {
             <div className="h-56 flex items-center justify-center bg-neutral-50/20 rounded-xl border border-neutral-100/50">
               {activities.length === 0 ? (
                 <div className="text-center p-6 space-y-2">
-                  <Trees className="w-8 h-8 text-emerald-500/40 mx-auto animate-pulse" />
+                  <Trees aria-hidden="true" className="w-8 h-8 text-emerald-500/40 mx-auto animate-pulse" />
                   <div>
                     <p className="text-xs font-bold text-neutral-700">No index trends available yet</p>
                     <p className="text-[10px] text-neutral-450 max-w-[280px] mx-auto leading-relaxed mt-0.5">
@@ -872,7 +872,7 @@ export default function DashboardView() {
             <div className="h-56 flex items-center justify-center bg-neutral-50/20 rounded-xl border border-neutral-100/50">
               {activities.length === 0 ? (
                 <div className="text-center p-6 space-y-2">
-                  <Goal className="w-8 h-8 text-neutral-450/40 mx-auto animate-pulse" />
+                  <Goal aria-hidden="true" className="w-8 h-8 text-neutral-450/40 mx-auto animate-pulse" />
                   <div>
                     <p className="text-xs font-bold text-neutral-700">Predictive analysis is waiting for logs</p>
                     <p className="text-[10px] text-neutral-450 max-w-[280px] mx-auto leading-relaxed mt-0.5">
@@ -981,7 +981,7 @@ export default function DashboardView() {
           <div className="bg-white p-5 rounded-xl border border-neutral-100 shadow-xs space-y-4 transition-all duration-200 hover:shadow-xs hover:border-neutral-150">
             <div className="flex items-center justify-between border-b border-neutral-50 pb-2">
               <h4 className="text-sm font-semibold text-neutral-800 flex items-center gap-1.5">
-                <Goal size={14} className="text-emerald-500" />
+                <Goal aria-hidden="true" size={14} className="text-emerald-500" />
                 <span>Weekly Goals</span>
               </h4>
               <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">
@@ -993,8 +993,17 @@ export default function DashboardView() {
               {goals.map((g) => (
                 <div 
                   key={g.id}
+                  role="checkbox"
+                  aria-checked={g.completed}
+                  tabIndex={0}
                   onClick={() => toggleGoal(g.id)}
-                  className={`p-3 rounded-lg border flex items-start gap-3 cursor-pointer transition-all hover:scale-[1.01] ${
+                  onKeyDown={(e) => {
+                    if (e.key === " " || e.key === "Enter") {
+                      e.preventDefault();
+                      toggleGoal(g.id);
+                    }
+                  }}
+                  className={`p-3 rounded-lg border flex items-start gap-3 cursor-pointer transition-all hover:scale-[1.01] focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20 ${
                     g.completed 
                       ? "border-emerald-100 bg-emerald-50/10 text-neutral-500 opacity-80" 
                       : "border-neutral-100 bg-neutral-100/10 hover:border-neutral-200"
@@ -1004,7 +1013,7 @@ export default function DashboardView() {
                     <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
                       g.completed ? "bg-emerald-600 border-emerald-600 text-white" : "border-neutral-300 bg-white"
                     }`}>
-                      {g.completed && <Check size={11} strokeWidth={3} />}
+                      {g.completed && <Check aria-hidden="true" size={11} strokeWidth={3} />}
                     </div>
                   </div>
                   <div className="flex-1 min-w-0">
@@ -1028,6 +1037,7 @@ export default function DashboardView() {
               onChange={handleDashboardFileChange} 
               accept="image/*" 
               className="hidden" 
+              aria-label="Upload receipt image"
             />
 
             <div className="space-y-3">
@@ -1035,7 +1045,7 @@ export default function DashboardView() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-neutral-50/30 p-3 rounded-lg border border-neutral-100">
                   <div className="space-y-0.5">
                     <h4 className="text-xs font-bold text-neutral-800 flex items-center gap-1.5">
-                      <QrCode size={13} className="text-emerald-600" />
+                      <QrCode aria-hidden="true" size={13} className="text-emerald-600" />
                       <span>Upload Receipt</span>
                     </h4>
                     <p className="text-[10px] text-neutral-500 leading-normal">
@@ -1057,7 +1067,7 @@ export default function DashboardView() {
 
               {scanStep === "uploading" && (
                 <div className="border border-neutral-100 p-4 rounded-xl text-center space-y-2 bg-neutral-50/50">
-                  <RefreshCw className="mx-auto text-emerald-600 animate-spin" size={15} />
+                  <RefreshCw aria-hidden="true" className="mx-auto text-emerald-600 animate-spin" size={15} />
                   <div>
                     <span className="text-xs font-semibold block text-neutral-800">Reading Invoice Content ({scanProgress}%)</span>
                     <p className="text-[9px] text-neutral-400 mt-0.5 font-medium">Staging image buffers...</p>
@@ -1067,7 +1077,7 @@ export default function DashboardView() {
 
               {scanStep === "vision" && (
                 <div className="border border-emerald-100 p-4 rounded-xl text-center space-y-1.5 bg-emerald-50/15">
-                  <Sparkles className="mx-auto text-yellow-500 animate-pulse" size={15} fill="#eab308" />
+                  <Sparkles aria-hidden="true" className="mx-auto text-yellow-500 animate-pulse" size={15} fill="#eab308" />
                   <div>
                     <span className="text-xs font-bold block text-emerald-900">Vision Audit Processing</span>
                     <p className="text-[9px] text-emerald-700 mt-0.5">Running OCR line extraction & cataloging emission types...</p>
@@ -1187,7 +1197,7 @@ export default function DashboardView() {
             
             <div className="p-5 border-b border-neutral-100 flex justify-between items-center bg-neutral-50">
               <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-emerald-600 animate-pulse fill-yellow-400" />
+                <Sparkles aria-hidden="true" size={16} className="text-emerald-600 animate-pulse fill-yellow-400" />
                 <div>
                   <h3 className="font-bold text-neutral-900 text-sm leading-none">Environmental Sustainability Report</h3>
                   <p className="text-[10px] text-neutral-450 mt-1">Audit report calculated from dynamic carbon indicators.</p>

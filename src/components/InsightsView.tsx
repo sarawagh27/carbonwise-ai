@@ -304,7 +304,7 @@ You are performing above average in sustainability tracking. Continued improveme
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl">
-                  <Activity size={20} />
+                  <Activity aria-hidden="true" size={20} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900 leading-tight">Activity Progress</h3>
@@ -350,7 +350,7 @@ You are performing above average in sustainability tracking. Continued improveme
           <div className="bg-white p-6 rounded-3xl border border-neutral-100 shadow-[0_4px_25px_rgba(16,185,129,0.02)] space-y-4 flex flex-col text-left">
             <div className="flex items-center gap-3">
               <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl">
-                <Sparkles size={20} />
+                <Sparkles aria-hidden="true" size={20} />
               </div>
               <div>
                 <h3 className="text-base font-bold text-gray-900 leading-tight">Upcoming Insights</h3>
@@ -394,7 +394,7 @@ You are performing above average in sustainability tracking. Continued improveme
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-2xl">
-                  <Zap size={20} />
+                  <Zap aria-hidden="true" size={20} />
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-gray-900 leading-tight">Quick Actions</h3>
@@ -409,10 +409,10 @@ You are performing above average in sustainability tracking. Continued improveme
                 className="w-full flex items-center justify-between p-3.5 bg-emerald-50/30 hover:bg-emerald-50 text-emerald-900 font-bold border border-emerald-100/50 rounded-2xl transition-all text-xs cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <Activity size={14} className="text-emerald-600" />
+                  <Activity aria-hidden="true" size={14} className="text-emerald-600" />
                   <span>Log Activity</span>
                 </div>
-                <ArrowUpRight size={14} className="text-emerald-500" />
+                <ArrowUpRight aria-hidden="true" size={14} className="text-emerald-500" />
               </button>
 
               <button
@@ -420,10 +420,10 @@ You are performing above average in sustainability tracking. Continued improveme
                 className="w-full flex items-center justify-between p-3.5 bg-emerald-50/30 hover:bg-emerald-50 text-emerald-900 font-bold border border-emerald-100/50 rounded-2xl transition-all text-xs cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <FileSpreadsheet size={13} className="text-emerald-600" />
+                  <FileSpreadsheet aria-hidden="true" size={13} className="text-emerald-600" />
                   <span>Scan Receipt</span>
                 </div>
-                <ArrowUpRight size={14} className="text-emerald-500" />
+                <ArrowUpRight aria-hidden="true" size={14} className="text-emerald-500" />
               </button>
 
               <button
@@ -431,10 +431,10 @@ You are performing above average in sustainability tracking. Continued improveme
                 className="w-full flex items-center justify-between p-3.5 bg-emerald-50/30 hover:bg-emerald-50 text-emerald-900 font-bold border border-emerald-100/50 rounded-2xl transition-all text-xs cursor-pointer"
               >
                 <div className="flex items-center gap-2">
-                  <Trophy size={14} className="text-emerald-600" />
+                  <Trophy aria-hidden="true" size={14} className="text-emerald-600" />
                   <span>Join Challenge</span>
                 </div>
-                <ArrowUpRight size={14} className="text-emerald-500" />
+                <ArrowUpRight aria-hidden="true" size={14} className="text-emerald-500" />
               </button>
             </div>
           </div>
@@ -619,14 +619,14 @@ You are performing above average in sustainability tracking. Continued improveme
             <div className="lg:col-span-1 bg-white p-5 rounded-2xl border border-neutral-100 shadow-3xs flex flex-col justify-between h-fit space-y-4 text-left">
               <div className="space-y-3">
                 <div className="flex items-center gap-2 font-bold text-gray-950 text-xs uppercase tracking-wider">
-                  <Clock className="text-emerald-500" size={15} />
+                  <Clock aria-hidden="true" className="text-emerald-500" size={15} />
                   <span>Interactive settings</span>
                 </div>
 
                 <div>
-                  <label className="block text-[9px] font-extrabold text-gray-400 uppercase tracking-widest mb-2 font-mono">
+                  <span className="block text-[9px] font-extrabold text-gray-400 uppercase tracking-widest mb-2 font-mono">
                     Audit Report Window
-                  </label>
+                  </span>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -663,12 +663,12 @@ You are performing above average in sustainability tracking. Continued improveme
               >
                 {loading ? (
                   <>
-                    <Sparkle size={13} className="animate-spin text-emerald-100" />
+                    <Sparkle aria-hidden="true" size={13} className="animate-spin text-emerald-100" />
                     <span>Generating Sustainability Report...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles size={13} />
+                    <Sparkles aria-hidden="true" size={13} />
                     <span>Generate Detailed Sustainability Report</span>
                   </>
                 )}
@@ -680,7 +680,7 @@ You are performing above average in sustainability tracking. Continued improveme
             <div className="lg:col-span-2">
               {!compiledReport ? (
                 <div className="bg-white p-8 rounded-2xl border border-neutral-100 shadow-3xs text-center space-y-3.5 h-full flex flex-col justify-center items-center">
-                  <FileSpreadsheet className="text-emerald-200 animate-bounce" size={36} />
+                  <FileSpreadsheet aria-hidden="true" className="text-emerald-200 animate-bounce" size={36} />
                   <div>
                     <h3 className="font-extrabold text-gray-900 text-sm">Generate Detailed Sustainability Report</h3>
                     <p className="text-xs text-gray-400 max-w-sm mx-auto font-semibold leading-relaxed mt-1">
@@ -694,7 +694,7 @@ You are performing above average in sustainability tracking. Continued improveme
                   {/* Tips Card */}
                   <div className="bg-emerald-50/20 border border-emerald-100 p-5 rounded-2xl shadow-3xs space-y-3">
                     <h4 className="font-bold text-gray-900 text-xs uppercase tracking-widest flex items-center gap-1.5 border-b border-emerald-150 pb-2">
-                      <BookOpen size={13} className="text-emerald-600" />
+                      <BookOpen aria-hidden="true" size={13} className="text-emerald-600" />
                       <span>Immediate Eco-Switch Advice</span>
                     </h4>
                     <div className="space-y-2">

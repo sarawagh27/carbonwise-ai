@@ -81,7 +81,7 @@ function RootApp() {
     return (
       <div className="min-h-screen bg-neutral-50/50 flex flex-col items-center justify-center p-6 text-center animate-pulse">
         <div className="w-12 h-12 rounded-full bg-emerald-50 relative flex items-center justify-center mx-auto mb-4 border border-emerald-100">
-          <Leaf className="text-emerald-500 animate-spin" size={24} />
+          <Leaf aria-hidden="true" className="text-emerald-500 animate-spin" size={24} />
         </div>
         <h3 className="text-sm font-bold text-gray-900 tracking-tight">Synchronizing Eco Profile...</h3>
       </div>
@@ -164,7 +164,7 @@ function RootApp() {
           {/* Top Row: Brand Trust Badge (Google Gemini Integration) */}
           <div className="relative z-10 flex justify-between items-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-[10px] font-bold text-emerald-300 tracking-wider">
-              <Sparkles className="text-emerald-400 animate-pulse" size={12} />
+              <Sparkles aria-hidden="true" className="text-emerald-400 animate-pulse" size={12} />
               <span>Powered by Google Gemini</span>
             </div>
             
@@ -293,7 +293,7 @@ function RootApp() {
             <div className="space-y-2 text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start gap-2">
                 <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-sm select-none">
-                  <Leaf size={16} />
+                  <Leaf aria-hidden="true" size={16} />
                 </div>
                 <span className="text-[11px] font-extrabold text-emerald-600 uppercase tracking-widest font-mono">CarbonWise AI</span>
               </div>
@@ -371,7 +371,7 @@ function RootApp() {
 
             {/* Privacy Protection guarantee text */}
             <div className="flex gap-2 px-3 py-2 bg-neutral-50 rounded-xl border border-neutral-100 select-none items-center">
-              <ShieldCheck className="text-emerald-600 shrink-0" size={13} />
+              <ShieldCheck aria-hidden="true" className="text-emerald-600 shrink-0" size={13} />
               <p className="text-[10px] text-neutral-500 font-medium leading-relaxed text-left">
                 CarbonWise AI encrypts all environmental logs locally. Private and secure.
               </p>

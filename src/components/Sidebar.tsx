@@ -37,7 +37,7 @@ export default function Sidebar() {
       <div className="md:hidden flex items-center justify-between bg-white border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-xs">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-emerald-50 rounded-lg text-emerald-600">
-            <Leaf size={22} className="animate-pulse" />
+            <Leaf aria-hidden="true" size={22} className="animate-pulse" />
           </div>
           <span className="font-semibold text-charcoal-900 text-lg tracking-tight">CarbonWise AI</span>
         </div>
@@ -46,7 +46,7 @@ export default function Sidebar() {
           className="p-2 text-emerald-800 hover:bg-emerald-50 rounded-lg transition-colors focus:outline-hidden"
           aria-label="Toggle navigation menu"
         >
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
+          {isOpen ? <X aria-hidden="true" size={22} /> : <Menu aria-hidden="true" size={22} />}
         </button>
       </div>
 
@@ -69,7 +69,7 @@ export default function Sidebar() {
           <div className="h-16 flex items-center px-6 border-b border-emerald-50/50">
             <div className="flex items-center gap-2.5">
               <div className="p-2 bg-emerald-500 rounded-xl text-white">
-                <Leaf size={18} />
+                <Leaf aria-hidden="true" size={18} />
               </div>
               <div>
                 <h1 className="font-bold text-gray-900 tracking-tight leading-tight">CarbonWise AI</h1>
@@ -102,7 +102,7 @@ export default function Sidebar() {
                     </span>
                     {profile.streak > 0 && (
                       <span className="flex items-center gap-0.5 text-xs text-amber-600 font-medium">
-                        <Flame size={12} className="fill-amber-500 stroke-amber-600" /> {profile.streak}d
+                        <Flame aria-hidden="true" size={12} className="fill-amber-500 stroke-amber-600" /> {profile.streak}d
                       </span>
                     )}
                   </div>
@@ -131,7 +131,7 @@ export default function Sidebar() {
                       : "text-gray-600 hover:text-emerald-700 hover:bg-emerald-50/75"}
                   `}
                 >
-                  <IconComponent size={18} className={isActive ? "text-white" : "text-gray-400"} />
+                  <IconComponent aria-hidden="true" size={18} className={isActive ? "text-white" : "text-gray-400"} />
                   <span>{item.label}</span>
                 </button>
               );
@@ -170,7 +170,7 @@ export default function Sidebar() {
             }}
             className="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors focus:outline-hidden"
           >
-            <LogOut size={16} />
+            <LogOut aria-hidden="true" size={16} />
             <span>Sign Out Session</span>
           </button>
         </div>

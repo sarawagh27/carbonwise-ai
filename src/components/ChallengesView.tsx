@@ -66,12 +66,12 @@ export default function ChallengesView() {
   const getBadgeIcon = (iconName: string, isUnlocked: boolean) => {
     const cls = isUnlocked ? "text-emerald-600 scale-100" : "text-gray-400 scale-90";
     switch (iconName) {
-      case "Sprout": return <Sprout size={22} className={cls} />;
-      case "Compass": return <Compass size={22} className={cls} />;
-      case "Flame": return <Flame size={22} className={cls} />;
-      case "ShieldAlert": return <ShieldCheck size={22} className={cls} />;
-      case "ScanLine": return <CheckCircle2 size={22} className={cls} />;
-      default: return <Award size={22} className={cls} />;
+      case "Sprout": return <Sprout aria-hidden="true" size={22} className={cls} />;
+      case "Compass": return <Compass aria-hidden="true" size={22} className={cls} />;
+      case "Flame": return <Flame aria-hidden="true" size={22} className={cls} />;
+      case "ShieldAlert": return <ShieldCheck aria-hidden="true" size={22} className={cls} />;
+      case "ScanLine": return <CheckCircle2 aria-hidden="true" size={22} className={cls} />;
+      default: return <Award aria-hidden="true" size={22} className={cls} />;
     }
   };
 
@@ -147,7 +147,7 @@ export default function ChallengesView() {
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
         >
-          <Flame size={15} className="fill-amber-500 stroke-amber-600 animate-pulse" />
+          <Flame aria-hidden="true" size={15} className="fill-amber-500 stroke-amber-600 animate-pulse" />
           <span>{profile.streak} Day Active Streak</span>
         </motion.div>
       </div>
@@ -172,7 +172,7 @@ export default function ChallengesView() {
               <div className="space-y-0.5">
                 <span className="text-[9px] leading-none text-gray-400 font-bold uppercase tracking-wider font-mono block">Real-time stats</span>
                 <span className="text-xs font-black text-gray-800 flex items-center gap-1">
-                  <Sparkles size={12} className="text-amber-500" />
+                  <Sparkles aria-hidden="true" size={12} className="text-amber-500" />
                   <span>+{todayXp} XP Earned Today</span>
                 </span>
               </div>
@@ -235,7 +235,7 @@ export default function ChallengesView() {
         <div className="lg:col-span-2 bg-white p-5 rounded-2xl border border-neutral-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-4 flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex items-center gap-2 border-b border-gray-50 pb-2.5">
-              <Trophy className="text-emerald-500 shrink-0" size={17} />
+              <Trophy aria-hidden="true" className="text-emerald-500 shrink-0" size={17} />
               <h4 className="text-xs font-black text-gray-900 uppercase tracking-wider">Active Personal & Team Challenges</h4>
             </div>
 
@@ -262,11 +262,11 @@ export default function ChallengesView() {
                           
                           {chal.completed ? (
                             <span className="text-[9px] font-black text-emerald-600 bg-emerald-100/50 px-2 py-0.5 rounded-full flex items-center gap-0.5 border border-emerald-100/60 leading-none">
-                              <CheckCircle2 size={10} /> Verified Complete
+                              <CheckCircle2 aria-hidden="true" size={10} /> Verified Complete
                             </span>
                           ) : (
                             <span className="text-[9px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded border border-gray-100 flex items-center gap-1 leading-none">
-                              <Clock size={10} />
+                              <Clock aria-hidden="true" size={10} />
                               <span>{prog.timeLeft}</span>
                             </span>
                           )}
@@ -333,7 +333,7 @@ export default function ChallengesView() {
       <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-4">
         <div className="flex items-center justify-between border-b border-gray-50 pb-2.5">
           <div className="flex items-center gap-2">
-            <Award className="text-emerald-500 animate-pulse" size={17} />
+            <Award aria-hidden="true" className="text-emerald-500 animate-pulse" size={17} />
             <h4 className="text-xs font-black text-gray-900 uppercase tracking-wider">Secured Credentials Shelf</h4>
           </div>
           <span className="text-[10px] text-gray-400 font-bold uppercase">
@@ -408,11 +408,11 @@ export default function ChallengesView() {
       <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-4 text-left">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-50 pb-2.5">
           <div className="flex items-center gap-2">
-            <Users className="text-emerald-500 shrink-0" size={17} />
+            <Users aria-hidden="true" className="text-emerald-500 shrink-0" size={17} />
             <h4 className="text-xs font-black text-gray-900 uppercase tracking-wider">Collective Community Insights</h4>
           </div>
           <div className="inline-flex items-center gap-1 bg-emerald-50 text-[9.5px] font-extrabold text-emerald-800 px-2 py-0.5 rounded uppercase font-mono tracking-wider">
-            <Globe size={11} className="animate-spin" style={{ animationDuration: '10s' }} />
+            <Globe aria-hidden="true" size={11} className="animate-spin" style={{ animationDuration: '10s' }} />
             <span>Network Connected</span>
           </div>
         </div>

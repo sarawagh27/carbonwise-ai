@@ -269,7 +269,7 @@ export default function ReceiptView() {
                 }`}
               >
                 <div className="p-3 bg-stone-50 group-hover:bg-emerald-50 text-stone-500 group-hover:text-emerald-700 rounded-full w-fit mx-auto mb-3 transition-all border border-stone-100 shadow-3xs">
-                  <UploadCloud size={24} className="animate-pulse" />
+                  <UploadCloud aria-hidden="true" size={24} className="animate-pulse" />
                 </div>
                 <h5 className="font-extrabold text-gray-950 text-sm tracking-tight group-hover:text-emerald-800 transition-colors">
                   Upload Receipt for Carbon Analysis
@@ -290,7 +290,7 @@ export default function ReceiptView() {
               {/* Clean subtext for supported formats */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-stone-500 font-semibold pt-3 border-t border-stone-100">
                 <span className="flex items-center gap-1.5">
-                  <FileText size={13} className="text-emerald-600" />
+                  <FileText aria-hidden="true" size={13} className="text-emerald-600" />
                   <span>Accepted formats: JPEG, PNG, HEIC, PDF</span>
                 </span>
                 <span>Max file size: 10MB</span>
@@ -331,7 +331,7 @@ export default function ReceiptView() {
         {loading && (
           <div className="bg-white p-12 rounded-3xl border border-neutral-100 shadow-[0_4px_25px_rgba(16,185,129,0.02)] text-center space-y-4 animate-fade-in">
             <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-2 border border-emerald-100">
-              <ScanLine size={24} className="animate-spin" />
+              <ScanLine aria-hidden="true" size={24} className="animate-spin" />
             </div>
             <div>
               <h4 className="font-extrabold text-gray-900 text-sm">Gemini AI is analyzing your document...</h4>
@@ -367,7 +367,7 @@ export default function ReceiptView() {
                 title="Discard scan"
                 aria-label="Discard scan results"
               >
-                <Trash2 size={16} />
+                <Trash2 aria-hidden="true" size={16} />
               </button>
             </div>
 
@@ -447,9 +447,18 @@ export default function ReceiptView() {
                   return (
                     <div 
                       key={idx}
+                      role="checkbox"
+                      aria-checked={isChecked}
+                      tabIndex={0}
                       onClick={() => toggleSelectIndex(idx)}
+                      onKeyDown={(e) => {
+                        if (e.key === " " || e.key === "Enter") {
+                          e.preventDefault();
+                          toggleSelectIndex(idx);
+                        }
+                      }}
                       className={`
-                        p-4.5 rounded-2xl border flex items-start gap-3.5 transition-all cursor-pointer text-left
+                        p-4.5 rounded-2xl border flex items-start gap-3.5 transition-all cursor-pointer text-left focus:outline-hidden focus:ring-2 focus:ring-emerald-500/20
                         ${isChecked 
                           ? "border-emerald-500 bg-emerald-50/[0.12]" 
                           : "border-stone-150 hover:border-emerald-200 bg-stone-50/20"}
@@ -503,7 +512,7 @@ export default function ReceiptView() {
                 className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs px-6 py-3 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-3xs"
                 aria-label="Log checked items to carbon ledger"
               >
-                <BookmarkCheck size={16} />
+                <BookmarkCheck aria-hidden="true" size={16} />
                 <span>Log Checked Items ({selectedIndices.length})</span>
               </button>
             </div>
@@ -514,7 +523,7 @@ export default function ReceiptView() {
         {/* FEEDBACK CORNER AND PROCESS INDICATORS */}
         {successMessage && (
           <div className="p-4 bg-emerald-50 border border-emerald-150 rounded-2xl flex items-start gap-2.5 text-xs text-emerald-800 text-left animate-fade-in shadow-[0_2px_12px_rgba(16,185,129,0.02)]">
-            <CheckCircle2 size={16} className="text-emerald-600 mt-0.5 shrink-0" />
+            <CheckCircle2 aria-hidden="true" size={16} className="text-emerald-600 mt-0.5 shrink-0" />
             <div className="space-y-1">
               <p className="font-bold">Activities Recorded Successfully</p>
               <p className="text-stone-500 font-semibold leading-relaxed">{successMessage}</p>
@@ -524,7 +533,7 @@ export default function ReceiptView() {
 
         {errorMessage && (
           <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-2.5 text-xs text-red-800 text-left animate-fade-in">
-            <AlertCircle size={16} className="text-red-500 mt-0.5 shrink-0" />
+            <AlertCircle aria-hidden="true" size={16} className="text-red-500 mt-0.5 shrink-0" />
             <span>{errorMessage}</span>
           </div>
         )}

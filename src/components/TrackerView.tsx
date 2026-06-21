@@ -163,7 +163,7 @@ export default function TrackerView() {
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-white p-6 rounded-2xl border border-stone-100 shadow-xs space-y-4">
             <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-              <Sparkles size={16} className="text-emerald-500 animate-pulse" />
+              <Sparkles aria-hidden="true" size={16} className="text-emerald-500 animate-pulse" />
               <span>Describe your Eco Activities</span>
             </div>
 
@@ -206,12 +206,12 @@ export default function TrackerView() {
               >
                 {loading ? (
                   <>
-                    <Sparkle size={13} className="animate-spin text-emerald-200" />
+                    <Sparkle aria-hidden="true" size={13} className="animate-spin text-emerald-200" />
                     <span>Reading Narrative...</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles size={13} />
+                    <Sparkles aria-hidden="true" size={13} />
                     <span>Extract Footprints with AI</span>
                   </>
                 )}
@@ -241,7 +241,7 @@ export default function TrackerView() {
             <div className="bg-emerald-50/20 border border-emerald-500/10 p-6 rounded-2xl shadow-xs space-y-4 animate-fade-in">
               <div className="flex items-center justify-between border-b border-emerald-500/10 pb-3">
                 <div className="flex items-center gap-2 font-bold text-gray-900 text-sm">
-                  <Smile className="text-emerald-600" size={18} />
+                  <Smile aria-hidden="true" className="text-emerald-600" size={18} />
                   <span>AI Extracted Footprints</span>
                 </div>
                 <span className="text-[11px] text-emerald-800 bg-emerald-100/50 px-2.5 py-0.5 rounded-full font-bold">
@@ -259,7 +259,7 @@ export default function TrackerView() {
                       <div className="space-y-1">
                         <h4 className="text-xs font-bold text-gray-900">{draft.description}</h4>
                         <div className="flex items-center gap-1.5 text-xs text-gray-400">
-                          <Info size={12} />
+                          <Info aria-hidden="true" size={12} />
                           <p className="italic leading-snug">{draft.explanation}</p>
                         </div>
                       </div>
@@ -295,7 +295,7 @@ export default function TrackerView() {
         <div className="lg:col-span-1 bg-white p-5 rounded-2xl border border-stone-100 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 font-bold text-gray-900 text-sm mb-4 border-b border-gray-50 pb-3">
-              <History size={16} className="text-gray-400" />
+              <History aria-hidden="true" size={16} className="text-gray-400" />
               <span>Eco Activity Feed</span>
             </div>
 
@@ -323,7 +323,7 @@ export default function TrackerView() {
                     </div>
                     <p className="text-xs text-stone-500 mt-1 font-medium">{act.description}</p>
                     <div className="flex items-center gap-1 text-[9px] text-gray-400 pt-0.5">
-                      <Calendar size={10} />
+                      <Calendar aria-hidden="true" size={10} />
                       <span>{new Date(act.timestamp).toLocaleDateString()}</span>
                     </div>
                   </div>
@@ -351,7 +351,7 @@ export default function TrackerView() {
                     : "border-red-100 text-red-600 hover:bg-red-55 bg-white"
                 }`}
               >
-                <Trash2 size={12} />
+                <Trash2 aria-hidden="true" size={12} />
                 <span>{confirmClear ? "⚠️ ARE YOU SURE? Click again to wipe!" : "Clear Footprint History"}</span>
               </button>
             </div>

@@ -31,7 +31,7 @@ const ImpactCards: React.FC<ImpactCardsProps> = ({
           </span>
         </div>
         <div className="p-2.5 bg-neutral-50 text-neutral-500 rounded-lg">
-          <Car size={15} />
+          <Car aria-hidden="true" size={15} />
         </div>
       </div>
 
@@ -46,7 +46,7 @@ const ImpactCards: React.FC<ImpactCardsProps> = ({
           </span>
         </div>
         <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg">
-          <Activity size={15} />
+          <Activity aria-hidden="true" size={15} />
         </div>
       </div>
 
@@ -61,7 +61,7 @@ const ImpactCards: React.FC<ImpactCardsProps> = ({
           </div>
         </div>
         <div className="p-2.5 bg-yellow-50/70 text-yellow-600 rounded-lg">
-          <Zap size={15} />
+          <Zap aria-hidden="true" size={15} />
         </div>
       </div>
 
@@ -76,7 +76,7 @@ const ImpactCards: React.FC<ImpactCardsProps> = ({
           </span>
         </div>
         <div className="p-2.5 bg-rose-50 text-rose-500 rounded-lg">
-          <Flame size={15} className="fill-rose-100" />
+          <Flame aria-hidden="true" size={15} className="fill-rose-100" />
         </div>
       </div>
     </div>

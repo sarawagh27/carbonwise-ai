@@ -64,7 +64,7 @@ const EmissionsCharts: React.FC<EmissionsChartsProps> = ({
         <div className="h-56 flex items-center justify-center bg-neutral-50/20 rounded-xl border border-neutral-100/50">
           {activitiesLength === 0 ? (
             <div className="text-center p-6 space-y-2">
-              <Trees className="w-8 h-8 text-emerald-500/40 mx-auto animate-pulse" />
+              <Trees aria-hidden="true" className="w-8 h-8 text-emerald-500/40 mx-auto animate-pulse" />
               <div>
                 <p className="text-xs font-bold text-neutral-700">No index trends available yet</p>
                 <p className="text-[10px] text-neutral-450 max-w-[280px] mx-auto leading-relaxed mt-0.5">
@@ -123,7 +123,7 @@ const EmissionsCharts: React.FC<EmissionsChartsProps> = ({
         <div className="h-56 flex items-center justify-center bg-neutral-50/20 rounded-xl border border-neutral-100/50">
           {activitiesLength === 0 ? (
             <div className="text-center p-6 space-y-2">
-              <Goal className="w-8 h-8 text-neutral-450/40 mx-auto animate-pulse" />
+              <Goal aria-hidden="true" className="w-8 h-8 text-neutral-450/40 mx-auto animate-pulse" />
               <div>
                 <p className="text-xs font-bold text-neutral-700">Predictive analysis is waiting for logs</p>
                 <p className="text-[10px] text-neutral-450 max-w-[280px] mx-auto leading-relaxed mt-0.5">

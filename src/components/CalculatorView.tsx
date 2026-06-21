@@ -332,9 +332,9 @@ export default function CalculatorView() {
                 {activeTab === "Transportation" && (
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
+                      <span className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
                         Vehicle Class / Commute Type
-                      </label>
+                      </span>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         {Object.keys(EMISSION_FACTORS.transportation).map((key) => (
                           <button
@@ -391,9 +391,9 @@ export default function CalculatorView() {
                 {activeTab === "Food" && (
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
+                      <span className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
                         Dietary Category
-                      </label>
+                      </span>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         {Object.keys(EMISSION_FACTORS.food).map((key) => (
                           <button
@@ -448,9 +448,9 @@ export default function CalculatorView() {
                 {activeTab === "Energy" && (
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
+                      <span className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
                         Utility Source
-                      </label>
+                      </span>
                       <div className="flex gap-3">
                         <button
                           type="button"
@@ -519,9 +519,9 @@ export default function CalculatorView() {
                 {activeTab === "Shopping" && (
                   <div className="space-y-5">
                     <div>
-                      <label className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
+                      <span className="block text-[10px] font-bold text-neutral-400 uppercase tracking-widest mb-3 font-mono">
                         Product Type Purchased
-                      </label>
+                      </span>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         {Object.keys(EMISSION_FACTORS.shopping).map((key) => (
                           <button
@@ -625,7 +625,7 @@ export default function CalculatorView() {
                   disabled={loading}
                   className="w-full bg-emerald-600 text-white font-semibold text-xs p-3.5 rounded-xl hover:bg-emerald-700 shadow-xs transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer shadow-[0_2px_10px_rgba(16,185,129,0.15)]"
                 >
-                  <BookmarkPlus size={14} />
+                  <BookmarkPlus aria-hidden="true" size={14} />
                   <span>{loading ? "Adding track..." : "Add to Dashboard"}</span>
                 </button>
               </div>

@@ -301,17 +301,17 @@ export default function ProfileView() {
     const cls = unlocked ? "text-emerald-600" : "text-gray-400";
     switch (iconName) {
       case "Sprout":
-        return <Sprout className={cls} size={18} />;
+        return <Sprout aria-hidden="true" className={cls} size={18} />;
       case "Compass":
-        return <Compass className={cls} size={18} />;
+        return <Compass aria-hidden="true" className={cls} size={18} />;
       case "Flame":
-        return <Flame className={cls} size={18} />;
+        return <Flame aria-hidden="true" className={cls} size={18} />;
       case "ShieldAlert":
-        return <Award className={cls} size={18} />;
+        return <Award aria-hidden="true" className={cls} size={18} />;
       case "ScanLine":
-        return <ScanLine className={cls} size={18} />;
+        return <ScanLine aria-hidden="true" className={cls} size={18} />;
       default:
-        return <Award className={cls} size={18} />;
+        return <Award aria-hidden="true" className={cls} size={18} />;
     }
   };
 
@@ -333,12 +333,12 @@ export default function ProfileView() {
         <div className="flex gap-2">
           {profile.streak >= 2 && (
             <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-50 rounded-full border border-amber-100 text-xs font-bold text-amber-700">
-              <Flame size={14} className="text-amber-500 shrink-0" />
+              <Flame aria-hidden="true" size={14} className="text-amber-500 shrink-0" />
               <span>{profile.streak} Day Tracker Streak</span>
             </div>
           )}
           <div className="text-[10.5px] text-gray-400 font-bold bg-gray-50 border border-gray-100 px-3 py-1 rounded-full flex items-center gap-1">
-            <Calendar size={12} />
+            <Calendar aria-hidden="true" size={12} />
             <span>Joined {new Date(profile.joinedAt).toLocaleDateString()}</span>
           </div>
         </div>
@@ -402,7 +402,7 @@ export default function ProfileView() {
           <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-4">
             <div className="flex items-center justify-between border-b border-gray-50 pb-2.5">
               <span className="text-xs font-black text-gray-900 tracking-tight flex items-center gap-1.5">
-                <MapPin size={14} className="text-emerald-600" />
+                <MapPin aria-hidden="true" size={14} className="text-emerald-600" />
                 <span>Regional Atmosphere Data</span>
               </span>
               <button
@@ -422,8 +422,9 @@ export default function ProfileView() {
               <div className="space-y-3 bg-neutral-50/50 p-3 rounded-xl border border-gray-100">
                 <div className="grid grid-cols-2 gap-2">
                   <div className="space-y-1">
-                    <label className="text-[8px] font-bold text-gray-400 uppercase">City</label>
+                    <label htmlFor="profile-city-input" className="text-[8px] font-bold text-gray-400 uppercase">City</label>
                     <input
+                      id="profile-city-input"
                       type="text"
                       value={cityInput}
                       onChange={(e) => setCityInput(e.target.value)}
@@ -432,8 +433,9 @@ export default function ProfileView() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[8px] font-bold text-gray-400 uppercase">Country</label>
+                    <label htmlFor="profile-country-input" className="text-[8px] font-bold text-gray-400 uppercase">Country</label>
                     <input
+                      id="profile-country-input"
                       type="text"
                       value={countryInput}
                       onChange={(e) => setCountryInput(e.target.value)}
@@ -469,7 +471,7 @@ export default function ProfileView() {
                 {/* Active City/Country Display */}
                 <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-emerald-50/20 to-neutral-50 rounded-xl border border-gray-100 text-xs text-gray-800 font-bold justify-between">
                   <div className="flex items-center gap-1.5 overflow-hidden">
-                    <Globe size={13} className="text-emerald-600 animate-spin" style={{ animationDuration: "12s" }} />
+                    <Globe aria-hidden="true" size={13} className="text-emerald-600 animate-spin" style={{ animationDuration: "12s" }} />
                     <span className="truncate">{profile.city || "San Francisco"}, {profile.country || "United States"}</span>
                   </div>
                   <button
@@ -478,7 +480,7 @@ export default function ProfileView() {
                     className="p-1 text-emerald-600 hover:bg-emerald-50 rounded-lg cursor-pointer shrink-0"
                     title="Reload Geo-Coordinates"
                   >
-                    <Globe size={13} className={detecting ? "animate-spin" : ""} />
+                    <Globe aria-hidden="true" size={13} className={detecting ? "animate-spin" : ""} />
                   </button>
                 </div>
               </div>
@@ -506,7 +508,7 @@ export default function ProfileView() {
 
               <div className="p-3 bg-emerald-50/[0.18] rounded-xl border border-emerald-50 text-[11px] text-gray-600 font-medium leading-relaxed space-y-1 text-left">
                 <div className="flex items-center gap-1 text-emerald-800 font-bold uppercase text-[9px] tracking-wide">
-                  <Info size={11} className="shrink-0" />
+                  <Info aria-hidden="true" size={11} className="shrink-0" />
                   <span>Carbon-Reduction Opportunity Context</span>
                 </div>
                 <p className="leading-normal">{climate.context}</p>
@@ -522,7 +524,7 @@ export default function ProfileView() {
               onClick={handleHardReset}
               className="px-4 py-1.5 mt-1 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 text-[10px] font-extrabold transition-colors cursor-pointer flex items-center gap-1"
             >
-              <RotateCcw size={11} />
+              <RotateCcw aria-hidden="true" size={11} />
               <span>Reset All Application Logs</span>
             </button>
           </div>
@@ -587,14 +589,14 @@ export default function ProfileView() {
                   <span className="text-[8.5px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase font-mono tracking-wider">Locked</span>
                 </div>
                 <h4 className="text-xs font-black text-gray-800 flex items-center gap-1 pt-1">
-                  <Award className="text-amber-500 shrink-0" size={13} />
+                  <Award aria-hidden="true" className="text-amber-500 shrink-0" size={13} />
                   <span className="truncate">{targetMilestone.title}</span>
                 </h4>
                 <p className="text-[10px] text-gray-400 font-semibold leading-relaxed truncate">{targetMilestone.desc}</p>
               </div>
 
               <div className="border-t border-gray-50 pt-2 text-[10px] text-emerald-700 font-bold flex items-center gap-1 leading-normal">
-                <Sparkles size={11} className="shrink-0 text-amber-500" />
+                <Sparkles aria-hidden="true" size={11} className="shrink-0 text-amber-500" />
                 <span className="line-clamp-1">{targetMilestone.advice}</span>
               </div>
             </div>
@@ -647,7 +649,7 @@ export default function ProfileView() {
               <div className="space-y-1.5 text-left">
                 <div className="flex justify-between items-center text-[11px]">
                   <span className="font-bold text-gray-800 flex items-center gap-1.5">
-                    <Car size={13} className="text-slate-500" />
+                    <Car aria-hidden="true" size={13} className="text-slate-500" />
                     <span>Transportation Commuting</span>
                   </span>
                   <span className="font-mono text-gray-500 font-bold">
@@ -668,7 +670,7 @@ export default function ProfileView() {
               <div className="space-y-1.5 text-left">
                 <div className="flex justify-between items-center text-[11px]">
                   <span className="font-bold text-gray-800 flex items-center gap-1.5">
-                    <Utensils size={13} className="text-emerald-500" />
+                    <Utensils aria-hidden="true" size={13} className="text-emerald-500" />
                     <span>Food & Dietary Choices</span>
                   </span>
                   <span className="font-mono text-gray-500 font-bold">
@@ -689,7 +691,7 @@ export default function ProfileView() {
               <div className="space-y-1.5 text-left">
                 <div className="flex justify-between items-center text-[11px]">
                   <span className="font-bold text-gray-800 flex items-center gap-1.5">
-                    <Zap size={13} className="text-amber-500 animate-pulse" />
+                    <Zap aria-hidden="true" size={13} className="text-amber-500 animate-pulse" />
                     <span>Household Power Intensity</span>
                   </span>
                   <span className="font-mono text-gray-500 font-bold">
@@ -710,7 +712,7 @@ export default function ProfileView() {
               <div className="space-y-1.5 text-left">
                 <div className="flex justify-between items-center text-[11px]">
                   <span className="font-bold text-gray-800 flex items-center gap-1.5">
-                    <ShoppingBag size={13} className="text-indigo-500" />
+                    <ShoppingBag aria-hidden="true" size={13} className="text-indigo-500" />
                     <span>Consumer Shopping Goods</span>
                   </span>
                   <span className="font-mono text-gray-500 font-bold">
@@ -839,7 +841,7 @@ export default function ProfileView() {
       <div className="bg-white p-6 rounded-3xl border border-neutral-100 shadow-[0_4px_20px_rgba(0,0,0,0.01)] space-y-6 text-left">
         <div>
           <div className="flex items-center gap-2">
-            <TrendingUp className="text-emerald-500" size={18} />
+            <TrendingUp aria-hidden="true" className="text-emerald-500" size={18} />
             <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded uppercase font-mono tracking-wider">Historical Progression</span>
           </div>
           <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider mt-1">Sustainability Journey Timeline</h3>
@@ -855,23 +857,23 @@ export default function ProfileView() {
           <div className="relative border-l-2 border-gray-100 ml-4 pl-6 space-y-6 pt-1">
             {timelineEvents.map((event, index) => {
               let iconBg = "bg-neutral-50 border-gray-200 text-gray-500";
-              let iconElement = <Activity size={12} />;
+              let iconElement = <Activity aria-hidden="true" size={12} />;
               let typeLabel = "Action Logged";
               let badgeColor = "bg-gray-50 text-gray-600 border-gray-100";
 
               if (event.type === "badge") {
                 iconBg = "bg-purple-50 border-purple-200 text-purple-600 shadow-[0_0_12px_rgba(139,92,246,0.15)]";
-                iconElement = <Award size={12} />;
+                iconElement = <Award aria-hidden="true" size={12} />;
                 typeLabel = "Badge Secured";
                 badgeColor = "bg-purple-100 text-purple-800 border-purple-200/50";
               } else if (event.type === "challenge") {
                 iconBg = "bg-amber-50 border-amber-200 text-amber-700 shadow-[0_0_12px_rgba(245,158,11,0.15)]";
-                iconElement = <Trophy size={11} />;
+                iconElement = <Trophy aria-hidden="true" size={11} />;
                 typeLabel = "Challenge Smashed";
                 badgeColor = "bg-amber-100/80 text-amber-800 border-amber-200/50";
               } else {
                 iconBg = "bg-emerald-50 border-emerald-200 text-emerald-600";
-                iconElement = <CheckCircle2 size={12} />;
+                iconElement = <CheckCircle2 aria-hidden="true" size={12} />;
                 typeLabel = "Action Logged";
                 badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-100";
               }
@@ -930,7 +932,7 @@ export default function ProfileView() {
         <div className="flex justify-between items-center border-b border-gray-50 pb-3">
           <div className="space-y-0.5">
             <h4 className="text-sm font-black text-gray-905 tracking-tight uppercase flex items-center gap-2">
-              <Award className="text-amber-500 shrink-0" size={16} />
+              <Award aria-hidden="true" className="text-amber-500 shrink-0" size={16} />
               <span>Climate Credentials Verified Shelf</span>
             </h4>
             <p className="text-xs text-gray-450 font-medium">Locked and unlocked credentials based on actual habit-forming tracker milestones.</p>
@@ -961,7 +963,7 @@ export default function ProfileView() {
                       {isUnlocked ? (
                         renderBadgeIcon(ach.icon, true)
                       ) : (
-                        <Lock className="text-gray-405" size={15} />
+                        <Lock aria-hidden="true" className="text-gray-405" size={15} />
                       )}
                     </div>
                     {/* Status label tag */}
