@@ -1,9 +1,38 @@
+# ============================================================
+# CarbonWise AI — Git Ignore Rules
+# ============================================================
+
+# Dependencies
 node_modules/
-build/
+
+# Build Output
 dist/
-coverage/
-.omx/
-.DS_Store
-*.log
-.env*
+build/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
 !.env.example
+
+# IDE & Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Test Coverage
+coverage/
+
+# Internal / Platform
+.omx/

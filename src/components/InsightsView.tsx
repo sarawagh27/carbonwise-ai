@@ -16,7 +16,6 @@ import {
   Cell
 } from "recharts";
 import { motion } from "motion/react";
-import { jsPDF } from "jspdf";
 import { 
   FileSpreadsheet, 
   Sparkle, 
@@ -37,8 +36,7 @@ import {
   Compass,
   AlertCircle,
   Trophy,
-  Plus,
-  Download
+  Plus
 } from "lucide-react";
 
 export default function InsightsView() {
@@ -47,360 +45,7 @@ export default function InsightsView() {
   const [loading, setLoading] = useState(false);
   const [compiledReport, setCompiledReport] = useState<any | null>(null);
 
-  const exportInsightsReportToPdf = (report: any) => {
-    if (!report) return;
-    try {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: "a4"
-      });
 
-      // Colors - Minimalist Palette
-      const colorPrimary = [6, 95, 70]; // Deep Forest Green (Emerald-800)
-      const colorAccent = [16, 185, 129]; // Emerald 500
-      const colorDark = [31, 41, 55]; // Charcoal (Gray-800)
-      const colorLightDark = [75, 85, 99]; // Gray-600
-      const colorMuted = [156, 163, 175]; // Soft Gray-400
-      const colorLine = [229, 231, 235]; // Light Gray-200
-      const barBg = [243, 244, 246]; // Very light gray-100
-
-      let y = 20;
-
-      // 1. HEADER SECTION
-      doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(20);
-      doc.text(`CarbonWise ${reportType === "weekly" ? "Weekly" : "Monthly"} Sustainability Audit`, 20, y);
-      y += 6;
-
-      doc.setTextColor(colorLightDark[0], colorLightDark[1], colorLightDark[2]);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9);
-      doc.text("Personalized Carbon Footprint Trends & Actionable Sustainability Guidelines", 20, y);
-      y += 8;
-
-      // Draw thin separator line
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.setLineWidth(0.2);
-      doc.line(20, y, 190, y);
-      y += 6;
-
-      // Profile metadata bar - cleanly arranged horizontally
-      const profileName = profile?.name || "Eco Guardian";
-      const profileCity = profile?.city || "Unspecified";
-      const profileCountry = profile?.country || "";
-      const formattedDate = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
-
-      doc.setFontSize(8.5);
-      doc.setTextColor(colorLightDark[0], colorLightDark[1], colorLightDark[2]);
-      doc.setFont("helvetica", "bold");
-      doc.text("USER: ", 20, y);
-      doc.setFont("helvetica", "normal");
-      doc.text(profileName, 32, y);
-
-      doc.setFont("helvetica", "bold");
-      doc.text("REGIONAL TARGET: ", 75, y);
-      doc.setFont("helvetica", "normal");
-      doc.text(`${profileCity}${profileCountry ? ", " + profileCountry : ""}`, 108, y);
-
-      doc.setFont("helvetica", "bold");
-      doc.text("DATE: ", 148, y);
-      doc.setFont("helvetica", "normal");
-      doc.text(formattedDate, 159, y);
-      y += 6;
-
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.line(20, y, 190, y);
-      y += 8;
-
-      // 2. CORE IMPACT METRIC CARDS (Three columns)
-      const totalEmissions = activities.reduce((sum, a) => sum + a.emissionKg, 0);
-
-      // Determine category emissions
-      const categoryEmissions: Record<string, number> = {
-        Transportation: 0,
-        Food: 0,
-        Energy: 0,
-        Shopping: 0,
-        Waste: 0
-      };
-      activities.forEach(a => {
-        if (categoryEmissions[a.category] !== undefined) {
-          categoryEmissions[a.category] += a.emissionKg;
-        }
-      });
-      const totalCatEmissions = Object.values(categoryEmissions).reduce((m, k) => m + k, 0) || 1;
-      const sortedCats = Object.entries(categoryEmissions).sort((a, b) => b[1] - a[1]);
-      const highestCatName = sortedCats[0][0];
-
-      const baselinePeriodKg = profile?.baselineCarbon 
-        ? (reportType === "weekly" ? (profile.baselineCarbon * 1000) / 52 : (profile.baselineCarbon * 1000) / 12)
-        : (reportType === "weekly" ? 182.6 : 791.6);
-
-      const relativeComparison = totalEmissions <= baselinePeriodKg 
-        ? `${((1 - totalEmissions / baselinePeriodKg) * 100).toFixed(0)}% below budget` 
-        : `${((totalEmissions / baselinePeriodKg - 1) * 100).toFixed(0)}% above budget`;
-
-      // Col 1: Total Footprint
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-      doc.text(`${totalEmissions.toFixed(1)} kg`, 20, y + 4);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(7.5);
-      doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-      doc.text("CUMULATIVE FOOTPRINT", 20, y + 9);
-
-      // Col 2: Baseline Performance
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-      doc.text(relativeComparison, 80, y + 4);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(7.5);
-      doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-      doc.text("BASELINE PERFORMANCE", 80, y + 9);
-
-      // Col 3: Key Driver
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.setTextColor(217, 119, 6); // Amber 600
-      doc.text(highestCatName, 140, y + 4);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(7.5);
-      doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-      doc.text("HIGHEST IMPACT ELEMENT", 140, y + 9);
-
-      y += 16;
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.line(20, y, 190, y);
-      y += 8;
-
-      // 3. SUSTAINABILITY ANALYSIS
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(9);
-      doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-      doc.text("EXECUTIVE ANALYSIS & STRATEGIC OUTLOOK", 20, y);
-      y += 6;
-
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9);
-      doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-
-      const summaryParagraph = `${report.summary || ""} ${report.projection || ""}`;
-      const wrappedAnalysis = doc.splitTextToSize(summaryParagraph, 170);
-      
-      wrappedAnalysis.forEach((line: string) => {
-        doc.text(line, 20, y);
-        y += 4.5;
-      });
-      y += 4;
-
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.line(20, y, 190, y);
-      y += 8;
-
-      // 4. DATA SECTION: DETAILED CATEGORY EMISSIONS CHART
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(9);
-      doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-      doc.text("CARBON FOOTPRINT BY ACTIVITY CATEGORY", 20, y);
-      y += 6;
-
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(7.5);
-      doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-      doc.text("CATEGORY", 20, y);
-      doc.text("DISTRIBUTION BAR", 55, y);
-      doc.text("CUMULATIVE LOAD (KG CO2E)", 135, y);
-      doc.text("PERCENTAGE", 175, y);
-      y += 4;
-
-      const maxCatVal = Math.max(...Object.values(categoryEmissions), 1);
-
-      Object.entries(categoryEmissions).forEach(([cat, val]) => {
-        y += 2;
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(8.5);
-        doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-        doc.text(cat, 20, y + 2.5);
-
-        const barWidth = 70;
-        const barHeight = 4;
-        const fillWidth = barWidth * (val / maxCatVal);
-
-        doc.setFillColor(barBg[0], barBg[1], barBg[2]);
-        doc.rect(55, y, barWidth, barHeight, "F");
-
-        if (fillWidth > 0) {
-          doc.setFillColor(colorAccent[0], colorAccent[1], colorAccent[2]);
-          doc.rect(55, y, fillWidth, barHeight, "F");
-        }
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(8.5);
-        doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-        doc.text(val.toFixed(1), 135, y + 2.5);
-
-        const sharePct = ((val / totalCatEmissions) * 100).toFixed(0);
-        doc.text(`${sharePct}%`, 175, y + 2.5);
-
-        y += 6;
-      });
-
-      y += 4;
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.line(20, y, 190, y);
-      y += 8;
-
-      // 5. PRIORITY ACTION PLAN (TIPS)
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(9);
-      doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-      doc.text("RECOMMENDED SUSTAINABILITY ACTIONS", 20, y);
-      y += 6;
-
-      if (report.tips && report.tips.length > 0) {
-        report.tips.forEach((tip: string, idx: number) => {
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(8.5);
-          doc.text(`[0${idx + 1}]`, 20, y);
-
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(8.5);
-          doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-          
-          const wrappedTip = doc.splitTextToSize(tip, 155);
-          wrappedTip.forEach((line: string, lineIdx: number) => {
-            doc.text(line, 32, y + (lineIdx * 4));
-          });
-          y += Math.max(1, wrappedTip.length) * 4 + 2;
-        });
-      }
-
-      // Metadata Page Footer (Page 1)
-      const pageHeight = doc.internal.pageSize.getHeight();
-      doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-      doc.line(20, pageHeight - 20, 190, pageHeight - 20);
-
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(7.5);
-      doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-      doc.text("Calculations utilized standard emissions matrices compiled under GHG guidelines.", 20, pageHeight - 15);
-      doc.text(report.reportMarkdown ? "Page 1 of 2" : "Page 1 of 1", 180, pageHeight - 15, { align: "right" });
-
-      // Add a Page for Detailed Sustainability Report if it exists
-      if (report.reportMarkdown) {
-        doc.addPage();
-        y = 20;
-        
-        // Header on page 2
-        doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(14);
-        doc.text("DETAILED SUSTAINABILITY ANALYSIS", 20, y);
-        y += 5;
-
-        doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-        doc.line(20, y, 190, y);
-        y += 8;
-
-        // Parse markdown text simply for PDF
-        const lines = report.reportMarkdown.split("\n");
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(9);
-        doc.setTextColor(55, 65, 81);
-
-        lines.forEach((line: string) => {
-          const trimmed = line.trim();
-          
-          // Safety page-overflow bounds check!
-          if (y > pageHeight - 25) {
-            doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-            doc.line(20, pageHeight - 20, 190, pageHeight - 20);
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(7.5);
-            doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-            doc.text("Page 2", 180, pageHeight - 15, { align: "right" });
-
-            doc.addPage();
-            y = 20;
-            doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(10);
-            doc.text("DETAILED SUSTAINABILITY ANALYSIS (CONTINUED)", 20, y);
-            y += 5;
-            doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-            doc.line(20, y, 190, y);
-            y += 8;
-          }
-
-          if (trimmed.startsWith("###")) {
-            y += 3;
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(10.5);
-            doc.setTextColor(colorPrimary[0], colorPrimary[1], colorPrimary[2]);
-            doc.text(trimmed.replace("###", "").trim(), 20, y);
-            y += 5.5;
-          } else if (trimmed.startsWith("####")) {
-            y += 2.5;
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(9);
-            doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-            doc.text(trimmed.replace("####", "").trim(), 20, y);
-            y += 4.5;
-          } else if (trimmed.startsWith("-") || trimmed.startsWith("*")) {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(8.5);
-            doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-            const content = trimmed.replace(/^[-*]\s*/, "");
-            const wrappedDot = doc.splitTextToSize(`•  ${content}`, 165);
-            wrappedDot.forEach((bulletLine: string) => {
-              if (y > pageHeight - 25) {
-                // Nested addPage if needed inside loops
-                doc.addPage();
-                y = 25;
-              }
-              doc.text(bulletLine, 22, y);
-              y += 4.5;
-            });
-            y += 1;
-          } else if (trimmed.length > 0) {
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(8.5);
-            doc.setTextColor(colorDark[0], colorDark[1], colorDark[2]);
-            const cleanText = trimmed.replace(/\*\*/g, "");
-            const wrappedText = doc.splitTextToSize(cleanText, 170);
-            wrappedText.forEach((paragraphLine: string) => {
-              if (y > pageHeight - 25) {
-                doc.addPage();
-                y = 25;
-              }
-              doc.text(paragraphLine, 20, y);
-              y += 4.5;
-            });
-            y += 1.5;
-          }
-        });
-
-        // Footer on detailed report page
-        const finalPageHeight = doc.internal.pageSize.getHeight();
-        doc.setDrawColor(colorLine[0], colorLine[1], colorLine[2]);
-        doc.line(20, finalPageHeight - 20, 190, finalPageHeight - 20);
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(7.5);
-        doc.setTextColor(colorMuted[0], colorMuted[1], colorMuted[2]);
-        doc.text("Calculations utilized standard emissions matrices compiled under GHG guidelines.", 20, finalPageHeight - 15);
-        doc.text("Page 2 of 2", 180, finalPageHeight - 15, { align: "right" });
-      }
-
-      doc.save(`CarbonWise_${reportType === "weekly" ? "Weekly" : "Monthly"}_Sustainability_Audit_${Date.now()}.pdf`);
-    } catch (err) {
-      console.error("Failed to export Insights PDF report:", err);
-    }
-  };
 
   // Constants
   const MIN_ACTIVITIES_REQUIRED = 5;
@@ -1029,16 +674,6 @@ You are performing above average in sustainability tracking. Continued improveme
                 )}
               </button>
 
-              {compiledReport && (
-                <button
-                  type="button"
-                  onClick={() => exportInsightsReportToPdf(compiledReport)}
-                  className="w-full bg-linear-to-b from-white to-neutral-50 hover:to-neutral-100 text-emerald-900 font-bold text-xs py-3 rounded-xl border border-emerald-250 shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer hover:border-emerald-350"
-                >
-                  <Download size={13} className="text-emerald-600" />
-                  <span>Download PDF Report</span>
-                </button>
-              )}
             </div>
 
             {/* Scientific Briefing card */}
@@ -1089,6 +724,18 @@ You are performing above average in sustainability tracking. Continued improveme
         </div>
       )}
 
+      {compiledReport && (
+        <PdfReportTemplate
+          userProfile={profile}
+          reportType={reportType}
+          totalEmissions={totalEmissions}
+          baseline={dailyBaselineKg * (reportType === "weekly" ? 7 : 30)}
+          highestCategory={highestCategory}
+          categoryData={breakdownData}
+          trendData={trendData}
+          report={compiledReport}
+        />
+      )}
     </div>
   );
 }

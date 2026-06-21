@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useApp } from "../AppContext";
 import { 
   Sparkles, 
@@ -10,9 +10,7 @@ import {
   Calendar, 
   Sparkle,
   History,
-  Info,
-  Mic,
-  MicOff
+  Info
 } from "lucide-react";
 
 export default function TrackerView() {
@@ -22,259 +20,7 @@ export default function TrackerView() {
   const [parsedDrafts, setParsedDrafts] = useState<any[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
-  const [isListening, setIsListening] = useState(false);
-  const [transcribing, setTranscribing] = useState(false);
   const [confirmClear, setConfirmClear] = useState(false);
-  
-  // Custom Speech Engine States
-  const [speechMode, setSpeechMode] = useState<"webspeech" | "gemini">("gemini");
-  const [speechErrorType, setSpeechErrorType] = useState<string | null>(null);
-
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const streamRef = useRef<MediaStream | null>(null);
-  const webSpeechRecognitionRef = useRef<any>(null);
-
-  useEffect(() => {
-    return () => {
-      if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-        try {
-          mediaRecorderRef.current.stop();
-        } catch (e) {}
-      }
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop());
-      }
-      if (webSpeechRecognitionRef.current) {
-        try {
-          webSpeechRecognitionRef.current.abort();
-        } catch (e) {}
-      }
-    };
-  }, []);
-
-  const startWebSpeech = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setSpeechErrorType("not-supported");
-      setErrorMessage("Standard Web Speech API is not supported by your current browser. Try switching to 'Gemini Cloud Voice' mode.");
-      return;
-    }
-
-    try {
-      if (webSpeechRecognitionRef.current) {
-        webSpeechRecognitionRef.current.abort();
-      }
-    } catch (e) {}
-
-    const rec = new SpeechRecognition();
-    rec.continuous = true;
-    rec.interimResults = false;
-    rec.lang = "en-US";
-
-    rec.onstart = () => {
-      setIsListening(true);
-      setSuccessMsg("Native Web Speech is now listening... Speak clearly. Click Stop when finished.");
-      setSpeechErrorType(null);
-    };
-
-    rec.onresult = (event: any) => {
-      const currentResultIndex = event.resultIndex;
-      const transcript = event.results[currentResultIndex][0].transcript;
-      if (transcript) {
-        setInputText((prev) => (prev ? prev + " " + transcript.trim() : transcript.trim()));
-        setSuccessMsg("Received phrase successfully!");
-      }
-    };
-
-    rec.onerror = (event: any) => {
-      console.warn("Web Speech API error event caught and handled gracefully:", event.error);
-      setIsListening(false);
-      const err = event.error;
-      setSpeechErrorType(err);
-
-      if (err === "no-speech") {
-        setErrorMessage("Web Speech Error: No speech detected ('no-speech'). Please ensure you speak clearly into your active microphone.");
-      } else if (err === "audio-capture") {
-        setErrorMessage("Web Speech Error: Audio capture failed ('audio-capture'). Please verify that your system recording hardware is plugged in and active.");
-      } else if (err === "not-allowed") {
-        setErrorMessage("Web Speech Error: Permission denied ('not-allowed'). Click your browser search bar lock symbol and click 'Allow' for microphone privileges.");
-      } else if (err === "network") {
-        setErrorMessage("Web Speech Error: Network error ('network'). Standard browser Web Speech features are occasionally restricted inside security iframe sandboxes. We highly suggest switching to 'Gemini Cloud Voice' mode below.");
-      } else {
-        setErrorMessage(`Web Speech Error: Standard error code '${err}' encountered package-side.`);
-      }
-    };
-
-    rec.onend = () => {
-      setIsListening(false);
-    };
-
-    try {
-      rec.start();
-      webSpeechRecognitionRef.current = rec;
-    } catch (err: any) {
-      console.error("Failed to start speech registration:", err);
-      setSpeechErrorType("audio-capture");
-      setErrorMessage("Could not initialize native microphone capture processes.");
-      setIsListening(false);
-    }
-  };
-
-  const stopWebSpeech = () => {
-    if (webSpeechRecognitionRef.current) {
-      try {
-        webSpeechRecognitionRef.current.stop();
-      } catch (err) {
-        console.error("Error stopping recognition:", err);
-      }
-    }
-    setIsListening(false);
-  };
-
-  const startGeminiVoice = async () => {
-    audioChunksRef.current = [];
-
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      setSpeechErrorType("not-supported");
-      setErrorMessage("Recording streams are not supported in your browser client settings.");
-      return;
-    }
-
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef.current = stream;
-
-      let options = { mimeType: "audio/webm" };
-      if (!MediaRecorder.isTypeSupported("audio/webm")) {
-        options = { mimeType: "audio/ogg" };
-      }
-
-      let recorder: MediaRecorder;
-      if (!MediaRecorder.isTypeSupported("audio/webm") && !MediaRecorder.isTypeSupported("audio/ogg")) {
-        recorder = new MediaRecorder(stream);
-      } else {
-        recorder = new MediaRecorder(stream, options);
-      }
-
-      mediaRecorderRef.current = recorder;
-
-      recorder.ondataavailable = (event) => {
-        if (event.data && event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      recorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: recorder.mimeType || "audio/webm" });
-        
-        if (streamRef.current) {
-          streamRef.current.getTracks().forEach((track) => track.stop());
-          streamRef.current = null;
-        }
-
-        if (audioBlob.size === 0) {
-          return;
-        }
-
-        setTranscribing(true);
-        setSuccessMsg("Analyzing audio buffer using Gemini Carbon-Wise AI transcription intelligence...");
-
-        try {
-          const reader = new FileReader();
-          reader.readAsDataURL(audioBlob);
-          reader.onloadend = async () => {
-            const base64Data = reader.result as string;
-
-            try {
-              const res = await fetch("/api/gemini/transcribe", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  audioBase64: base64Data,
-                  mimeType: audioBlob.type
-                })
-              });
-
-              if (!res.ok) {
-                const errData = await res.json();
-                throw new Error(errData.error || "Failed to process speech stream");
-              }
-
-              const data = await res.json();
-              if (data.transcript) {
-                setInputText((prev) => prev ? prev + " " + data.transcript : data.transcript);
-                if (data.fallbackUsed) {
-                  setSuccessMsg("Speech-to-text safety fallback activated. Ready for carbon audit!");
-                } else {
-                  setSuccessMsg("Successfully transcribed spoken voice entry!");
-                }
-              } else {
-                setSpeechErrorType("no-speech");
-                setErrorMessage("No speech detected. Please speak clearly into your microphone.");
-              }
-            } catch (err: any) {
-              console.error("Transcribe request failed:", err);
-              setSpeechErrorType("audio-capture");
-              setErrorMessage(err.message || "Failed to transcribe spoken audio context.");
-            } finally {
-              setTranscribing(false);
-            }
-          };
-        } catch (readerErr) {
-          console.error("Failure reading audio:", readerErr);
-          setSpeechErrorType("audio-capture");
-          setErrorMessage("Failed to read captured speech buffers.");
-          setTranscribing(false);
-        }
-      };
-
-      recorder.start();
-      setIsListening(true);
-      setSuccessMsg("Cloud Audio active! Speak your routine eco habits, then click Stop.");
-    } catch (err: any) {
-      console.error("Mic stream capture failed:", err);
-      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setSpeechErrorType("not-allowed");
-        setErrorMessage("Microphone connection denied. Please verify application microphone permissions are authorized.");
-      } else {
-        setSpeechErrorType("audio-capture");
-        setErrorMessage(`Microphone system connection issue: ${err.message || err.toString()}`);
-      }
-      setIsListening(false);
-    }
-  };
-
-  const stopGeminiVoice = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
-      try {
-        mediaRecorderRef.current.stop();
-      } catch (err) {
-        console.error("Failure ending media recorder stream:", err);
-      }
-    }
-    setIsListening(false);
-  };
-
-  const startListening = async () => {
-    setErrorMessage("");
-    setSuccessMsg("");
-    setSpeechErrorType(null);
-
-    if (speechMode === "webspeech") {
-      startWebSpeech();
-    } else {
-      await startGeminiVoice();
-    }
-  };
-
-  const stopListening = () => {
-    if (speechMode === "webspeech") {
-      stopWebSpeech();
-    } else {
-      stopGeminiVoice();
-    }
-  };
 
   const formatCo2 = (amount: number) => {
     const rounded = Math.round(amount * 100) / 100;
@@ -380,30 +126,6 @@ export default function TrackerView() {
   };
 
   const getStatusContent = () => {
-    if (isListening) {
-      return {
-        icon: "🎤",
-        title: "Listening...",
-        desc: "Speak naturally.",
-        bg: "bg-red-50 border-red-100 text-red-900 animate-pulse"
-      };
-    }
-    if (transcribing) {
-      return {
-        icon: "✨",
-        title: "Transcribing...",
-        desc: "Analyzing audio buffer with Gemini AI.",
-        bg: "bg-emerald-50 border-emerald-150 text-emerald-950 animate-pulse"
-      };
-    }
-    if (speechErrorType) {
-      return {
-        icon: "⚠️",
-        title: "Voice input unavailable.",
-        desc: "Please type your activity instead.",
-        bg: "bg-amber-50 border-amber-200/50 text-amber-900"
-      };
-    }
     if (errorMessage) {
       return {
         icon: "⚠️",
@@ -445,56 +167,8 @@ export default function TrackerView() {
               <span>Describe your Eco Activities</span>
             </div>
 
-            {/* Streamlined Voice Input Section */}
-            <div className="bg-stone-50/55 p-3 rounded-xl border border-stone-100/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-xs font-bold text-stone-800 block">Voice Input</span>
-                <p className="text-[10px] text-stone-500 leading-relaxed font-sans mt-0.5">
-                  Speak your environmental routine naturally to transcribe.
-                </p>
-              </div>
-              
-              {isListening && (
-                <div className="flex items-center gap-1 px-3 py-1.5 bg-rose-50/70 rounded-full border border-rose-100 self-center select-none cursor-default">
-                  <span className="w-1 h-3.5 bg-rose-500 rounded-full animate-bounce" style={{ animationDelay: "0.1s", animationDuration: "1s" }}></span>
-                  <span className="w-1 h-5 bg-rose-500 rounded-full animate-bounce" style={{ animationDelay: "0.3s", animationDuration: "1s" }}></span>
-                  <span className="w-1 h-2.5 bg-rose-500 rounded-full animate-bounce" style={{ animationDelay: "0.2s", animationDuration: "1s" }}></span>
-                  <span className="w-1 h-4.5 bg-rose-500 rounded-full animate-bounce" style={{ animationDelay: "0.4s", animationDuration: "1s" }}></span>
-                  <span className="w-1 h-3 bg-rose-500 rounded-full animate-bounce" style={{ animationDelay: "0.15s", animationDuration: "1s" }}></span>
-                </div>
-              )}
-
-              <button
-                type="button"
-                disabled={transcribing}
-                onClick={isListening ? stopListening : startListening}
-                className={`px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-3xs border ${
-                  isListening
-                    ? "bg-red-500 text-white border-red-500 hover:bg-red-600 animate-pulse"
-                    : "bg-white text-stone-700 border-stone-200 hover:bg-stone-50 hover:border-stone-300"
-                } disabled:opacity-60`}
-              >
-                {transcribing ? (
-                  <>
-                    <Sparkle size={13} className="animate-spin text-emerald-600" />
-                    <span>Transcribing...</span>
-                  </>
-                ) : isListening ? (
-                  <>
-                    <MicOff size={13} />
-                    <span>Stop Recording</span>
-                  </>
-                ) : (
-                  <>
-                    <Mic size={13} className="text-stone-500" />
-                    <span>Start Recording</span>
-                  </>
-                )}
-              </button>
-            </div>
 
             <textarea
-              required
               rows={6}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}

@@ -1,4 +1,16 @@
-import app from "./app.js";
+const fs = require('fs');
+const serverCode = fs.readFileSync('server.ts', 'utf8');
+
+const splitMarker = '// VITE CLIENT INTEGRATION';
+const splitIndex = serverCode.indexOf(splitMarker);
+if (splitIndex === -1) throw new Error('Split comment not found');
+
+// Find the line start of the split marker
+const lineStart = serverCode.lastIndexOf('\n', splitIndex);
+const appCode = serverCode.substring(0, lineStart) + '\nexport default app;\n';
+fs.writeFileSync('app.ts', appCode);
+
+const newServerCode = `import app from "./app.js";
 import path from "path";
 import express from "express";
 
@@ -21,12 +33,12 @@ async function initializeServer() {
   }
 
   const server = app.listen(PORT, "0.0.0.0", () => {
-    console.log(`CarbonWise AI full-stack server running securely on port ${PORT}`);
+    console.log(\`CarbonWise AI full-stack server running securely on port \${PORT}\`);
   });
 
   server.on("error", (error) => {
     if (error.code === "EADDRINUSE") {
-      console.error(`Port ${PORT} is already in use.`);
+      console.error(\`Port \${PORT} is already in use.\`);
     }
     throw error;
   });
@@ -37,3 +49,6 @@ if (!process.env.VERCEL) {
     console.error("Critical server bootstrap error:", err);
   });
 }
+`;
+fs.writeFileSync('server.ts', newServerCode);
+console.log('Refactored correctly.');
