@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "description": "AI-powered sustainability platform that transforms receipts, activities, and daily habits into actionable carbon footprint insights using Google Gemini.",
   "author": "Sara Wagh",
   "license": "MIT",
